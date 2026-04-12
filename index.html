@@ -1,0 +1,3800 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shri Krishna Krupa Dental – Shri Krishna Kripa Implant & Dental Clinic, Navsari</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<!-- Swiper -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+/* ============================================================
+   CSS VARIABLES & RESET
+============================================================ */
+:root {
+  --gold: #C8A96E;
+  --gold-light: #E8D5A3;
+  --gold-dark: #A8893E;
+  --white: #FFFFFF;
+  --off-white: #FAF9F7;
+  --cream: #F5F0E8;
+  --navy: #0A0F1E;
+  --navy-mid: #111827;
+  --navy-soft: #1C2438;
+  --glass: rgba(255,255,255,0.08);
+  --glass-border: rgba(200,169,110,0.25);
+  --shadow-gold: 0 0 40px rgba(200,169,110,0.3);
+  --shadow-soft: 0 20px 60px rgba(0,0,0,0.12);
+  --radius: 20px;
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-accent: 'Cormorant Garamond', serif;
+  --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--white);
+  color: var(--navy);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+============================================================ */
+#cursor-dot {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.15s ease;
+  transform: translate(-50%, -50%);
+}
+#cursor-ring {
+  position: fixed;
+  width: 40px; height: 40px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.08s ease, width 0.3s, height 0.3s, opacity 0.3s;
+  transform: translate(-50%, -50%);
+  opacity: 0.6;
+}
+body:hover #cursor-ring { opacity: 1; }
+.cursor-hover #cursor-dot { transform: translate(-50%,-50%) scale(2.5); background: var(--gold-light); }
+.cursor-hover #cursor-ring { width: 60px; height: 60px; border-color: var(--gold-light); opacity: 0.4; }
+
+/* ============================================================
+   SCROLL PROGRESS
+============================================================ */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+  z-index: 9999;
+  width: 0%;
+  transition: width 0.1s;
+  box-shadow: 0 0 8px var(--gold);
+}
+
+/* ============================================================
+   LOADING SCREEN
+============================================================ */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--navy);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 32px;
+}
+.loader-logo {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.05em;
+  opacity: 0;
+}
+.loader-logo span { color: var(--gold); }
+.loader-bar {
+  width: 280px;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+.loader-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  width: 0%;
+  border-radius: 2px;
+  box-shadow: 0 0 12px var(--gold);
+}
+.loader-tagline {
+  font-family: var(--font-accent);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: rgba(200,169,110,0.7);
+  letter-spacing: 0.2em;
+  opacity: 0;
+}
+.loader-percent {
+  position: absolute;
+  right: 0;
+  top: -22px;
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+#navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 20px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition);
+}
+#navbar.scrolled {
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(20px);
+  padding: 14px 60px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+  border-bottom: 1px solid rgba(200,169,110,0.15);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+  transition: var(--transition);
+}
+#navbar.scrolled .nav-logo { color: var(--navy); }
+.nav-logo span { color: var(--gold); }
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  position: relative;
+  transition: var(--transition);
+}
+#navbar.scrolled .nav-links a { color: var(--navy-mid); }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: var(--gold);
+  color: var(--navy) !important;
+  padding: 10px 24px;
+  border-radius: 50px;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 20px rgba(200,169,110,0.4);
+  transition: var(--transition) !important;
+}
+.nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-2px) !important; box-shadow: 0 8px 30px rgba(200,169,110,0.5) !important; }
+.nav-cta::after { display: none !important; }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+}
+.hamburger span {
+  width: 26px; height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+#navbar.scrolled .hamburger span { background: var(--navy); }
+
+/* ============================================================
+   HERO SECTION
+============================================================ */
+#hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* SLIDER */
+.hero-slider {
+  position: absolute;
+  inset: 0;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.12);
+  transition: opacity 1.5s ease-in-out, transform 6s ease;
+}
+
+/* 10 IMAGES */
+.slide:nth-child(1) { background-image: url('https://i.ibb.co/TD4rqssw/29fa4f4e3c39.jpg'); }
+.slide:nth-child(2) { background-image: url('https://i.ibb.co/93dWMvcR/3cfbc1a822f6.jpg'); }
+.slide:nth-child(3) { background-image: url('https://i.ibb.co/8gwSQvbr/c0ab344027a2.jpg'); }
+.slide:nth-child(4) { background-image: url('https://i.ibb.co/r2MprR1r/cf9be0ad7ee2.jpg'); }
+.slide:nth-child(5) { background-image: url('https://i.ibb.co/wZNVndJY/665608033cc4.jpg'); }
+.slide:nth-child(6) { background-image: url('https://i.ibb.co/0RMJBtXf/eb24057e9cc7.jpg'); }
+.slide:nth-child(7) { background-image: url('https://i.ibb.co/j9WS1kGY/cd4b8285edf4.jpg'); }
+.slide:nth-child(8) { background-image: url('https://i.ibb.co/99P36kbr/6ad37570759f.jpg'); }
+
+/* ACTIVE */
+.slide.active {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* OVERLAY */
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(10,15,30,0.75),
+    rgba(10,15,30,0.4),
+    rgba(10,15,30,0.75)
+  );
+}
+/* ============================================================
+   TRUST BAR
+============================================================ */
+#trust-bar {
+  background: var(--white);
+  border-top: 1px solid rgba(200,169,110,0.15);
+  border-bottom: 1px solid rgba(200,169,110,0.15);
+  padding: 28px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 180px;
+  justify-content: center;
+}
+.trust-divider {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(200,169,110,0.3), transparent);
+}
+.trust-icon {
+  width: 46px; height: 46px;
+  background: linear-gradient(135deg, #FFF8EC, #FFF3D4);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  box-shadow: 0 4px 15px rgba(200,169,110,0.2);
+  flex-shrink: 0;
+}
+.trust-info { display: flex; flex-direction: column; }
+.trust-num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1;
+}
+.trust-num span { color: var(--gold-dark); }
+.trust-label {
+  font-size: 0.76rem;
+  color: #888;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.stars { color: #FFB800; font-size: 0.95rem; letter-spacing: 2px; }
+
+/* ============================================================
+   SECTION UTILITY
+============================================================ */
+section { position: relative; }
+.section-pad { padding: 100px 60px; }
+.section-pad-sm { padding: 70px 60px; }
+.container { max-width: 1280px; margin: 0 auto; }
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.tag-line {
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+.tag-text {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.section-title em { color: var(--gold-dark); font-style: italic; }
+.section-title.light { color: var(--white); }
+.section-title.light em { color: var(--gold-light); }
+.section-desc {
+  font-size: 1rem;
+  color: #666;
+  max-width: 560px;
+  line-height: 1.7;
+}
+.section-desc.light { color: rgba(255,255,255,0.65); }
+
+/* ============================================================
+   ABOUT SECTION
+============================================================ */
+#about {
+  background: var(--off-white);
+  overflow: hidden;
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.about-images {
+  position: relative;
+  height: 560px;
+}
+.about-img-main {
+  position: absolute;
+  top: 0; left: 0;
+  width: 70%;
+  height: 80%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+.about-img-accent {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 55%;
+  height: 55%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  border: 4px solid var(--white);
+}
+.about-img-main img,
+.about-img-accent img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.about-img-main:hover img,
+.about-img-accent:hover img { transform: scale(1.05); }
+.about-badge-float {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  background: var(--white);
+  border-radius: 16px;
+  padding: 18px 22px;
+  box-shadow: 0 16px 50px rgba(0,0,0,0.12);
+  text-align: center;
+  border: 1px solid rgba(200,169,110,0.2);
+  z-index: 10;
+}
+.badge-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold-dark);
+  line-height: 1;
+}
+.badge-lbl {
+  font-size: 0.72rem;
+  color: #888;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.about-content { display: flex; flex-direction: column; gap: 28px; }
+.about-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 8px;
+}
+.timeline-item {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 28px;
+  position: relative;
+}
+.timeline-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 32px;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+.timeline-dot {
+  width: 30px; height: 30px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--white);
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(200,169,110,0.4);
+}
+.timeline-content h4 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.timeline-content p { font-size: 0.9rem; color: #777; line-height: 1.6; }
+  
+  
+  
+  .about-cta {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* Base */
+.btn-premium {
+  padding: 14px 26px;
+  border-radius: 40px;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Primary (Gold Luxury) */
+.btn-premium.primary {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: white;
+  box-shadow: 0 10px 30px rgba(200,169,110,0.4);
+}
+
+.btn-premium.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(200,169,110,0.6);
+}
+
+/* Secondary (Glass Effect) */
+.btn-premium.secondary {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  color: var(--navy);
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.btn-premium.secondary:hover {
+  background: var(--navy);
+  color: white;
+}
+  
+  
+  
+  
+  
+
+/* ============================================================
+   DOCTOR SECTION
+============================================================ */
+#doctor {
+  background: var(--navy);
+  overflow: hidden;
+}
+.doctor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: center;
+}
+.doctor-img-wrap {
+  position: relative;
+}
+.doctor-img {
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  max-height: 580px;
+}
+.doctor-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.doctor-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: calc(var(--radius) + 2px);
+  background: linear-gradient(135deg, var(--gold-dark), transparent, var(--gold));
+  z-index: -1;
+  opacity: 0.5;
+}
+.doctor-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+.doc-stat {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  text-align: center;
+  transition: var(--transition);
+}
+.doc-stat:hover { transform: translateY(-4px); border-color: var(--gold); background: rgba(200,169,110,0.1); }
+.doc-stat-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+.doc-stat-lbl {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+.credentials { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.credential-tag {
+  background: rgba(200,169,110,0.12);
+  border: 1px solid rgba(200,169,110,0.25);
+  border-radius: 50px;
+  padding: 6px 16px;
+  font-size: 0.78rem;
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   SERVICES SECTION
+============================================================ */
+#services {
+  background: var(--white);
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 56px;
+}
+.service-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  border: 1px solid rgba(200,169,110,0.15);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+.service-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 24px 60px rgba(0,0,0,0.14); border-color: var(--gold); }
+.service-card:hover::before { opacity: 1; }
+.service-card > * { position: relative; z-index: 1; transition: var(--transition); }
+.service-icon {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, #FFF8EC, #FFEFC8);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(200,169,110,0.2);
+  transition: var(--transition);
+}
+.service-card:hover .service-icon { background: rgba(200,169,110,0.2); box-shadow: 0 0 20px rgba(200,169,110,0.3); }
+.service-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 10px;
+  transition: var(--transition);
+}
+.service-card:hover .service-title { color: var(--white); }
+.service-desc {
+  font-size: 0.88rem;
+  color: #888;
+  line-height: 1.65;
+  transition: var(--transition);
+}
+.service-card:hover .service-desc { color: rgba(255,255,255,0.6); }
+.service-price {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold-dark);
+  transition: var(--transition);
+}
+.service-card:hover .service-price { color: var(--gold-light); }
+.service-arrow {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  width: 36px; height: 36px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: var(--transition);
+}
+.service-card:hover .service-arrow { opacity: 1; transform: translateX(0); }
+
+/* ============================================================
+   BEFORE / AFTER GALLERY
+============================================================ */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 48px;
+}
+.ba-slider-wrapper {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: ew-resize;
+  user-select: none;
+  box-shadow: var(--shadow-soft);
+  height: 360px;
+  background: #0A0F1E;
+}
+.ba-before, .ba-after {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+.ba-before img, .ba-after img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.ba-after { clip-path: inset(0 50% 0 0); }
+.ba-divider {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 100%;
+  background: var(--white);
+  z-index: 10;
+  box-shadow: 0 0 15px rgba(255,255,255,0.6);
+}
+.ba-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px; height: 48px;
+  background: var(--white);
+  border-radius: 50%;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  cursor: ew-resize;
+}
+.ba-handle svg { width: 24px; height: 24px; fill: var(--navy); }
+.ba-labels {
+  position: absolute;
+  bottom: 16px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 12;
+  pointer-events: none;
+}
+.ba-label {
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+  color: var(--white);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 5px 12px;
+  border-radius: 40px;
+  text-transform: uppercase;
+}
+@media (max-width: 1000px) {
+  .comparison-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  .comparison-grid { grid-template-columns: 1fr; }
+  .ba-slider-wrapper { height: 320px; }
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 200px);
+  gap: 16px;
+  margin-top: 40px;
+}
+.gallery-item {
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+}
+.gallery-item:first-child { grid-column: span 2; grid-row: span 2; }
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.gallery-item:hover img { transform: scale(1.06); }
+.gallery-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,15,30,0.6), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.gallery-item:hover .gallery-item-overlay { opacity: 1; }
+
+/* ============================================================
+   AI SCAN SECTION
+============================================================ */
+#ai-scan {
+  background: var(--navy);
+  overflow: hidden;
+  position: relative;
+}
+.ai-bg-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(200,169,110,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ai-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.ai-scanner {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 24px;
+  padding: 40px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+.scan-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(200,169,110,0.2);
+}
+.scan-face-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+}
+.scan-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  box-shadow: 0 0 12px var(--gold);
+  animation: scan-move 2.5s ease-in-out infinite;
+  top: 0;
+}
+@keyframes scan-move {
+  0% { top: 0%; opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { top: 100%; opacity: 0; }
+}
+.scan-dots {
+  position: absolute;
+  top: 20px; right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.scan-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: blink 1.5s infinite;
+}
+.scan-dot:nth-child(2) { animation-delay: 0.3s; }
+.scan-dot:nth-child(3) { animation-delay: 0.6s; }
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+.scan-corners span {
+  position: absolute;
+  width: 24px; height: 24px;
+  border-color: var(--gold);
+  border-style: solid;
+  border-width: 2px;
+  opacity: 0.7;
+}
+.scan-corners span:nth-child(1) { top: 8px; left: 8px; border-right: none; border-bottom: none; border-top-left-radius: 4px; }
+.scan-corners span:nth-child(2) { top: 8px; right: 8px; border-left: none; border-bottom: none; border-top-right-radius: 4px; }
+.scan-corners span:nth-child(3) { bottom: 8px; left: 8px; border-right: none; border-top: none; border-bottom-left-radius: 4px; }
+.scan-corners span:nth-child(4) { bottom: 8px; right: 8px; border-left: none; border-top: none; border-bottom-right-radius: 4px; }
+.scan-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 12px 16px;
+  background: rgba(200,169,110,0.08);
+  border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 12px;
+}
+.scan-status-dot {
+  width: 8px; height: 8px;
+  background: #22C55E;
+  border-radius: 50%;
+  animation: pulse-green 1.5s infinite;
+  box-shadow: 0 0 8px rgba(34,197,94,0.6);
+}
+@keyframes pulse-green {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+}
+.scan-status-text { font-size: 0.82rem; color: rgba(255,255,255,0.6); }
+.scan-status-text strong { color: var(--gold-light); }
+.scan-upload-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+}
+.scan-upload-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+.ai-analysis-items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 32px;
+}
+.analysis-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transform: translateX(-20px);
+}
+.analysis-item.visible { opacity: 1; transform: translateX(0); transition: all 0.5s ease; }
+.analysis-icon { font-size: 1.2rem; }
+.analysis-text { flex: 1; }
+.analysis-text strong { display: block; font-size: 0.88rem; color: var(--white); margin-bottom: 2px; }
+.analysis-text span { font-size: 0.78rem; color: rgba(255,255,255,0.45); }
+.analysis-bar-wrap { width: 80px; }
+.analysis-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.analysis-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+  width: 0%;
+  transition: width 1.5s ease 0.5s;
+}
+.analysis-item.visible .analysis-bar-fill { width: var(--w); }
+
+/* ============================================================
+   TESTIMONIALS
+============================================================ */
+#testimonials {
+  background: linear-gradient(135deg, var(--navy) 0%, #111827 100%);
+  overflow: hidden;
+  position: relative;
+}
+.test-swiper-container {
+  margin-top: 56px;
+  position: relative;
+}
+.testimonial-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 24px;
+  padding: 36px;
+  backdrop-filter: blur(12px);
+  transition: var(--transition);
+  height: auto;
+}
+.testimonial-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+.test-stars { color: #FFB800; font-size: 1rem; letter-spacing: 3px; margin-bottom: 16px; }
+.test-quote {
+  font-family: var(--font-accent);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.test-quote::before { content: '"'; font-size: 3rem; color: var(--gold); line-height: 0; vertical-align: -1rem; margin-right: 4px; }
+.test-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.test-avatar {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(200,169,110,0.4);
+}
+.test-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.test-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--white);
+  margin-bottom: 3px;
+}
+.test-treatment { font-size: 0.8rem; color: var(--gold); }
+.swiper-pagination-bullet { background: rgba(200,169,110,0.4) !important; }
+.swiper-pagination-bullet-active { background: var(--gold) !important; }
+
+/* ============================================================
+   CLINIC EXPERIENCE / PHOTO TOUR
+============================================================ */
+#clinic-tour {
+  background: var(--white);
+}
+.tour-masonry {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 200px 200px;
+  gap: 16px;
+  margin-top: 56px;
+}
+.tour-item {
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+.tour-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.tour-item:nth-child(4) { grid-column: span 2; }
+.tour-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.tour-item:hover img { transform: scale(1.07); }
+.tour-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,15,30,0.7) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+}
+.tour-item:hover .tour-overlay { opacity: 1; }
+.tour-caption {
+  color: var(--white);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   APPOINTMENT BOOKING
+============================================================ */
+#booking {
+  background: linear-gradient(135deg, var(--navy) 0%, #0F1729 100%);
+  position: relative;
+  overflow: hidden;
+}
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: center;
+}
+.booking-info { display: flex; flex-direction: column; gap: 28px; }
+.booking-feature {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.booking-feature-icon {
+  width: 48px; height: 48px;
+  background: rgba(200,169,110,0.12);
+  border: 1px solid rgba(200,169,110,0.25);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.booking-feature-text strong { color: var(--white); font-size: 0.95rem; display: block; margin-bottom: 4px; }
+.booking-feature-text p { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+.urgency-banner {
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.urgency-icon { font-size: 1.4rem; }
+.urgency-text strong { color: #FCA5A5; font-size: 0.9rem; display: block; margin-bottom: 2px; }
+.urgency-text p { color: rgba(255,255,255,0.5); font-size: 0.82rem; }
+.booking-form {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 24px;
+  padding: 44px;
+  backdrop-filter: blur(12px);
+}
+.booking-form h3 {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.booking-form p { font-size: 0.88rem; color: rgba(255,255,255,0.5); margin-bottom: 30px; }
+.form-group { margin-bottom: 20px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+  transition: var(--transition);
+  appearance: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+  background: rgba(200,169,110,0.06);
+  box-shadow: 0 0 0 3px rgba(200,169,110,0.1);
+}
+.form-group textarea { height: 100px; resize: none; }
+.form-group select option { background: var(--navy-soft); color: var(--white); }
+.form-submit {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.form-submit:hover { transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+.form-whatsapp {
+  width: 100%;
+  padding: 14px;
+  background: rgba(37,211,102,0.1);
+  color: #25D366;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1.5px solid rgba(37,211,102,0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  text-decoration: none;
+}
+.form-whatsapp:hover { background: rgba(37,211,102,0.2); transform: translateY(-2px); }
+
+/* ============================================================
+   FAQ SECTION
+============================================================ */
+#faq {
+  background: var(--off-white);
+}
+.faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: flex-start;
+  margin-top: 0;
+}
+.faq-list { margin-top: 0; }
+.faq-item {
+  border-bottom: 1px solid rgba(200,169,110,0.2);
+  overflow: hidden;
+}
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 0;
+  cursor: pointer;
+  gap: 16px;
+}
+.faq-q-text {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.4;
+}
+.faq-icon {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,169,110,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: var(--transition);
+  color: var(--gold-dark);
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+.faq-item.open .faq-icon { background: var(--gold); color: var(--navy); transform: rotate(45deg); }
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-answer { max-height: 200px; padding-bottom: 20px; }
+.faq-answer p { font-size: 0.9rem; color: #777; line-height: 1.7; }
+
+/* ============================================================
+   CONTACT & MAP
+============================================================ */
+#contact {
+  background: var(--white);
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 60px;
+  align-items: start;
+}
+.contact-card {
+  background: var(--navy);
+  border-radius: var(--radius);
+  padding: 40px;
+  color: var(--white);
+}
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.contact-item:last-of-type { border-bottom: none; }
+.contact-ico {
+  width: 44px; height: 44px;
+  background: rgba(200,169,110,0.12);
+  border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.contact-item-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.contact-item-val {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.5;
+}
+.social-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+.social-btn {
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+.social-btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+.map-container {
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: 420px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(200,169,110,0.15);
+}
+.map-container iframe { width: 100%; height: 100%; border: none; }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  .whatsapp-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--navy);
+
+  background: linear-gradient(135deg, #25D366, #1ebe5d);
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
+
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle shine effect */
+.whatsapp-btn::before {
+  content: "";
+  position: absolute;
+  width: 120%;
+  height: 100%;
+  top: 0;
+  left: -120%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.4),
+    transparent
+  );
+  transition: 0.6s;
+}
+
+.whatsapp-btn:hover::before {
+  left: 120%;
+}
+
+/* hover interaction */
+.whatsapp-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.35);
+}
+
+/* icon styling */
+.wa-icon {
+  font-size: 1.1rem;
+}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+/* ============================================================
+   FOOTER
+============================================================ */
+footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.5);
+  padding: 60px 60px 32px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.footer-brand-name {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.footer-brand-name span { color: var(--gold); }
+.footer-tagline {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: rgba(200,169,110,0.6);
+  margin-bottom: 20px;
+}
+.footer-col h4 {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: var(--transition);
+}
+.footer-links a:hover { color: var(--gold-light); transform: translateX(4px); display: inline-block; }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-bottom p { font-size: 0.8rem; }
+.footer-bottom .gold { color: var(--gold); }
+
+/* ============================================================
+   FLOATING CTA & WHATSAPP
+============================================================ */
+.floating-cta {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+.float-wa {
+  width: 56px; height: 56px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 8px 30px rgba(37,211,102,0.4);
+  transition: var(--transition);
+  font-size: 1.4rem;
+}
+.float-wa:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(37,211,102,0.5); }
+.float-call {
+  width: 56px; height: 56px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 8px 30px rgba(200,169,110,0.4);
+  transition: var(--transition);
+  font-size: 1.3rem;
+}
+.float-call:hover { transform: scale(1.1); box-shadow: var(--shadow-gold); }
+
+/* ============================================================
+   PARTICLES (JS canvas)
+============================================================ */
+#particles-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ============================================================
+   MOBILE MENU
+============================================================ */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,15,30,0.97);
+  z-index: 998;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+.mobile-menu.active { display: flex; }
+.mobile-menu a {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+  transition: var(--transition);
+}
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-close {
+  position: absolute;
+  top: 28px; right: 28px;
+  font-size: 2rem;
+  color: var(--white);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* ============================================================
+   ANIMATIONS / UTILITIES
+============================================================ */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.fade-in.visible { opacity: 1; }
+.stagger-1 { transition-delay: 0.1s !important; }
+.stagger-2 { transition-delay: 0.2s !important; }
+.stagger-3 { transition-delay: 0.3s !important; }
+.stagger-4 { transition-delay: 0.4s !important; }
+.stagger-5 { transition-delay: 0.5s !important; }
+.stagger-6 { transition-delay: 0.6s !important; }
+.stagger-7 { transition-delay: 0.7s !important; }
+.stagger-8 { transition-delay: 0.8s !important; }
+
+/* Glow text utility */
+.glow-text { text-shadow: 0 0 30px rgba(200,169,110,0.4); }
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 1100px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .doctor-grid, .about-grid { gap: 40px; }
+}
+@media (max-width: 900px) {
+  #navbar { padding: 18px 28px; }
+  #navbar.scrolled { padding: 12px 28px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .section-pad { padding: 70px 28px; }
+  .section-pad-sm { padding: 50px 28px; }
+  #trust-bar { padding: 20px 28px; gap: 12px; }
+  .trust-divider { display: none; }
+  .about-grid, .doctor-grid, .booking-grid, .faq-grid, .contact-grid, .ai-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-images { height: 360px; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-grid .gallery-item:first-child { grid-column: span 2; grid-row: span 1; }
+  .tour-masonry { grid-template-columns: repeat(2, 1fr); }
+  .tour-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+  .tour-item:nth-child(4) { grid-column: span 1; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  footer { padding: 50px 28px 28px; }
+  .floating-cta { bottom: 20px; right: 20px; }
+  .booking-form { padding: 28px; }
+}
+@media (max-width: 600px) {
+  .hero-buttons { flex-direction: column; align-items: center; }
+  .services-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-grid .gallery-item:first-child { grid-column: span 1; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .doctor-stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ /* ============================================================
+   MODAL STYLES
+============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 15, 30, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.modal-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-content {
+  background: var(--navy);
+  border: 1px solid rgba(200, 169, 110, 0.3);
+  border-radius: 24px;
+  padding: 40px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  transform: translateY(20px);
+  transition: transform 0.4s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+} 
+  
+  
+  
+  
+  
+  
+  .image-strip {
+  width: 100%;
+  overflow: hidden;
+  background: var(--ivory);
+  padding: 30px 0; /* slightly increased for balance */
+  border-top: 1px solid rgba(39,174,96,0.1);
+  border-bottom: 1px solid rgba(39,174,96,0.1);
+}
+
+.image-track {
+  display: flex;
+  gap: 30px; /* increased spacing for bigger images */
+  width: max-content;
+  animation: scrollImages 25s linear infinite;
+}
+
+.image-track img {
+  height: 420px;   /* doubled */
+  width: 520px;    /* proportional scaling */
+  object-fit: cover;
+  border-radius: 16px; /* slightly smoother UI */
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: brightness(0.9);
+}
+
+.image-track img:hover {
+  transform: scale(1.06); /* refined hover */
+  filter: brightness(1);
+}
+
+/* 🔥 Smooth infinite scrolling animation */
+@keyframes scrollImages {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* 📱 Responsive Optimization (VERY IMPORTANT) */
+@media (max-width: 768px) {
+  .image-track img {
+    height: 220px;
+    width: 360px;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-track img {
+    height: 180px;
+    width: 280px;
+  }
+}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+/* animation */
+@keyframes scrollImages {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* pause on hover */
+.image-strip:hover .image-track {
+  animation-play-state: paused;
+}
+  
+  
+  
+  
+  
+  
+  .hero-content {
+  position: absolute;
+  bottom: 60px;
+  left: 60px;
+  z-index: 5;
+  max-width: 480px;
+  color: white;
+}
+
+/* Badge (very subtle authority signal) */
+.hero-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 12px;
+}
+
+/* Title (NOT overpowering) */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  color: white;
+}
+
+/* Subtext */
+.hero-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 18px;
+}
+
+/* CTA buttons */
+.hero-cta {
+  display: flex;
+  gap: 12px;
+}
+
+.hero-btn {
+  padding: 10px 18px;
+  border-radius: 40px;
+  font-size: 0.75rem;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+/* Primary */
+.hero-btn.primary {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--navy);
+}
+
+/* Secondary */
+.hero-btn.secondary {
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+}
+
+/* Hover */
+.hero-btn:hover {
+  transform: translateY(-2px);
+}
+  
+  
+  
+  
+  /* ===== PREMIUM ASK BUTTON ===== */
+.ask-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  /* Premium Gradient */
+  background: linear-gradient(135deg, #C8A96E, #E8D5A3);
+  color: #0A0F1E;
+
+  /* Depth */
+  box-shadow: 0 10px 30px rgba(200,169,110,0.35);
+  position: relative;
+  overflow: hidden;
+
+  transition: all 0.35s ease;
+}
+
+/* Shine Effect */
+.ask-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  transition: all 0.6s ease;
+}
+
+/* Hover = Premium Feel */
+.ask-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 18px 45px rgba(200,169,110,0.5);
+}
+
+.ask-btn:hover::before {
+  left: 100%;
+}
+
+/* Icon styling */
+.ask-icon {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+  
+.nav-logo img {
+  height: 50px;   /* adjust between 40–70px based on your navbar height */
+  width: auto;
+  display: block;
+}
+  
+  
+  
+  
+  
+</style>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+<!-- ===================== LOADING SCREEN ===================== -->
+<div id="loading-screen">
+  <div class="loader-logo" id="loader-logo">Shri Krishna Kripa <span> Implant & Dental Clinic</span></div>
+  <div class="loader-bar">
+    <div class="loader-fill" id="loader-fill">
+      <span class="loader-percent" id="loader-percent">0%</span>
+    </div>
+  </div>
+  <div class="loader-tagline" id="loader-tagline">Designing Smiles That Define You</div>
+</div>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+  <img src="https://i.ibb.co/93gNJZsw/59b71e40f9d8.jpg" alt="SKK Dental Logo">
+</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#doctor">Doctor</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#booking" class="nav-cta">Book Now</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">✕</button>
+  <a href="#about" onclick="document.getElementById('mobile-menu').classList.remove('active')">About</a>
+  <a href="#services" onclick="document.getElementById('mobile-menu').classList.remove('active')">Services</a>
+  <a href="#gallery" onclick="document.getElementById('mobile-menu').classList.remove('active')">Gallery</a>
+  <a href="#doctor" onclick="document.getElementById('mobile-menu').classList.remove('active')">Doctor</a>
+  <a href="#testimonials" onclick="document.getElementById('mobile-menu').classList.remove('active')">Reviews</a>
+  <a href="#booking" onclick="document.getElementById('mobile-menu').classList.remove('active')">Book Appointment</a>
+  <a href="#contact" onclick="document.getElementById('mobile-menu').classList.remove('active')">Contact</a>
+</div>
+
+<!-- ===================== HERO SECTION ===================== -->
+<section id="hero">
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- 10 IMAGE SLIDER -->
+  <div class="hero-slider">
+    <div class="slide active"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+  </div>
+
+  <div class="hero-bg-overlay"></div>
+  
+  
+  <div class="hero-content">
+  <div class="hero-badge">✨ Smile Designing Specialist</div>
+
+  <h1 class="hero-title">
+    Transforming Smiles with Precision
+  </h1>
+
+  <p class="hero-sub">
+    Dr. Sakshi Garg — Navsari’s trusted expert in aesthetic smile design
+  </p>
+
+  <div class="hero-cta">
+    <a href="#booking" class="hero-btn primary">Book Smile Consultation</a>
+    <a href="#" class="hero-btn secondary">View Smile Cases</a>
+  </div>
+</div>
+  
+  
+  
+  
+  
+</section>
+<!-- ===================== TRUST BAR ===================== -->
+<div id="trust-bar">
+  <div class="trust-item">
+    <div class="trust-icon">⭐</div>
+    <div class="trust-info">
+      <span class="trust-num"><span class="count" data-target="4.9">0</span>★</span>
+      <span class="trust-label">Google Rating</span>
+    </div>
+  </div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">
+    <div class="trust-icon">😊</div>
+    <div class="trust-info">
+      <span class="trust-num"><span class="count" data-target="10000">0</span>+</span>
+      <span class="trust-label">Happy Patients</span>
+    </div>
+  </div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">
+    <div class="trust-icon">🦷</div>
+    <div class="trust-info">
+      <span class="trust-num"><span class="count" data-target="10">0</span>+</span>
+      <span class="trust-label">Years of Excellence</span>
+    </div>
+  </div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">
+    <div class="trust-icon">🏅</div>
+    <div class="trust-info">
+      <span class="trust-num"><span class="count" data-target="5000">0</span>+</span>
+      <span class="trust-label">Smile Designing</span>
+    </div>
+  </div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">
+    <div class="trust-icon">🔬</div>
+    <div class="trust-info">
+      <span class="trust-num"></span>
+      <span class="trust-label">Navsari's trusted</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ABOUT SECTION ===================== -->
+<section id="about" class="section-pad">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-images fade-in">
+        <div class="about-img-main">
+          <img src="  https://i.ibb.co/rGY9LHXG/9232dd2f2027.jpg" alt="SKK Dental Clinic Interior" loading="lazy">
+        </div>
+        <div class="about-img-accent">
+          <img src="https://i.ibb.co/dJPS5QNx/32c9295fec6d.jpg" alt="Dental Treatment" loading="lazy">
+        </div>
+        <div class="about-badge-float">
+          <div class="badge-num">10+</div>
+          <div class="badge-lbl">Years<br>Excellence</div>
+        </div>
+      </div>
+
+      <div class="about-content"> 
+        <div class="section-tag fade-up">
+          <div class="tag-line"></div>
+          <span class="tag-text">Our Story</span>
+        </div>
+        <h2 class="section-title fade-up stagger-1">Crafting Smiles <em>That Define You</em></h2>
+        <p class="section-desc fade-up stagger-2">
+          At Shri Krishna Kripa Implant & Dental Clinic, we believe every smile tells a story. Founded in 2019 in the heart of Navsari, we've transformed over 10,000 smiles with precision, compassion, and cutting-edge technology.
+        </p>
+
+        <div class="about-timeline">
+          <div class="timeline-item fade-up stagger-3">
+            <div class="timeline-dot">✦</div>
+            <div class="timeline-content">
+              <h4>State-of-the-Art Technology</h4>
+              <p>Digital X-rays, Intraoral cameras, CAD/CAM restorations for precision care.</p>
+            </div>
+          </div>
+          <div class="timeline-item fade-up stagger-4">
+            <div class="timeline-dot">✦</div>
+            <div class="timeline-content">
+              <h4>Expertise </h4>
+              <p>Exceptional Smile Desgin Specialist in town.</p>
+            </div>
+          </div>
+          <div class="timeline-item fade-up stagger-5">
+            <div class="timeline-dot">✦</div>
+            <div class="timeline-content">
+              <h4>Sterilisation Excellence</h4>
+              <p>100% sterile instruments with autoclave technology. Your safety is paramount.</p>
+            </div>
+          </div>
+          <div class="timeline-item fade-up stagger-6">
+            <div class="timeline-dot">✦</div>
+            <div class="timeline-content">
+              <h4>Painless Dentistry Promise</h4>
+              <p>Advanced anesthesia & sedation options to ensure a completely comfortable experience.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DOCTOR SECTION ===================== -->
+<section id="doctor" class="section-pad">
+  <div class="container">
+    <div class="doctor-grid">
+      <div class="doctor-img-wrap fade-in">
+        <div class="doctor-glow"></div>
+        <div class="doctor-img">
+          <img src=" https://i.ibb.co/35TBhwL9/8d92d30db655.jpg   " alt="Dr. SKK Dental" loading="lazy">
+        </div>
+       
+        
+        
+        
+        
+        
+      </div>
+
+      <div class="fade-up">
+        <div class="section-tag">
+          <div class="tag-line" style="background:var(--gold-light)"></div>
+          <span class="tag-text" style="color:var(--gold-light)">Meet The Doctor</span>
+        </div>
+        <h2 class="section-title light">Dr. <em>Sakshi A Garg </em><br>Smile Designing Specialist</h2>
+        <p class="section-desc light" style="margin-bottom:24px;">
+          With over 10 years of dedicated practice in smile design and cosmetic dentistry, our lead doctor brings global expertise to Navsari. Trained at premier institutes with international certifications in implants and smile design.
+        </p>
+        <p class="section-desc light" style="margin-bottom:32px;">
+          "Every patient deserves a smile they're proud to share. My mission is to combine clinical excellence with gentle care, making your dental journey comfortable and transformative."
+          Get your dream smile in just one visit with our advanced Smile Designing in Navsari. Specially designed for busy individuals and NRI patients, our same-day treatment delivers fast, natural-looking results without multiple appointments.          
+        </p>
+        <div class="credentials">
+          <span class="credential-tag">BDS (Gujarat)</span>
+          <span class="credential-tag">Smile Designing Specialist & Certified</span>
+          <span class="credential-tag"> Implantologist</span>
+          <span class="credential-tag">IDA Member</span>
+          <span class="credential-tag">1 visit Smile Transformation</span>
+        </div>
+        <div class="about-cta">
+  <a 
+    href="https://wa.me/918059908969?text=Hello%20Doctor%2C%20I%20would%20like%20to%20book%20a%20consultation." 
+    class="btn-premium primary" 
+    target="_blank"
+  >
+    Book Consultation
+  </a>
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  
+  
+  
+  <div class="image-strip">
+  <div class="image-track">
+    <img src="https://i.ibb.co/zWTV2Hwh/4f19c489ef17.jpg" />
+    <img src="https://i.ibb.co/Lz2DH8Jx/04bd62018cb5.jpg" />
+    <img src="https://i.ibb.co/PZs4NSKK/c5b07a439b53.jpg" />
+    <img src="https://i.ibb.co/FdNVNsR/effac8712e77.jpg" />
+
+    <!-- duplicate for infinite effect -->
+    <img src="https://i.ibb.co/HDQG6QsQ/c2f5e4155eee.jpg" />
+    <img src="https://i.ibb.co/zTX1nPjT/d1b6eabd2efe.jpg" />
+    <img src="https://i.ibb.co/KpWCRXLQ/31c46a5140eb.jpg" />
+    <img src="https://i.ibb.co/zTX1nPjT/d1b6eabd2efe.jpg" />
+  </div>
+</div>
+  
+  
+  
+<!-- ===================== SERVICES SECTION ===================== -->
+<section id="services" class="section-pad">
+  <div class="container">
+    <div style="text-align:center; max-width:600px; margin:0 auto 56px;">
+      <div class="section-tag fade-up" style="justify-content:center">
+        <div class="tag-line"></div>
+        <span class="tag-text">What We Offer</span>
+        <div class="tag-line"></div>
+      </div>
+      <h2 class="section-title fade-up stagger-1" style="text-align:center;">Global Standard <em>  Dental Care  </em></h2>
+      <p class="section-desc fade-up stagger-2" style="margin:0 auto; text-align:center;">From routine care to complex cosmetic transformations — all under one roof with the latest technology.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card fade-up stagger-1">
+        <div class="service-icon">🦷</div>
+        <h3 class="service-title">Dental Implants</h3>
+        <p class="service-desc">Permanent, natural-looking tooth replacements with titanium implants. Missing teeth solution for life.</p>
+        <div class="service-price"></div>
+        <div class="service-arrow"><svg viewBox="0 0 24 24" fill="white" width="16"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="service-card fade-up stagger-2">
+        <div class="service-icon">✨</div>
+        <h3 class="service-title">Smile Makeover</h3>
+        <p class="service-desc">Complete smile transformation using veneers, bonding & whitening. Hollywood smile in Navsari.</p>
+        <div class="service-price"></div>
+        <div class="service-arrow"><svg viewBox="0 0 24 24" fill="white" width="16"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="service-card fade-up stagger-3">
+        <div class="service-icon">👑</div>
+        <h3 class="service-title">Crowns & Bridges</h3>
+        <p class="service-desc">Zirconia & ceramic crowns for damaged teeth. Precision-crafted for perfect fit and aesthetics.</p>
+        <div class="service-price"></div>
+        <div class="service-arrow"><svg viewBox="0 0 24 24" fill="white" width="16"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="service-card fade-up stagger-4">
+        <div class="service-icon">💎</div>
+        <h3 class="service-title">Teeth Whitening</h3>
+        <p class="service-desc">Professional Zoom whitening — up to 8 shades brighter in just one session. Safe & long-lasting.</p>
+        <div class="service-price"></div>
+        <div class="service-arrow"><svg viewBox="0 0 24 24" fill="white" width="16"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="service-card fade-up stagger-1">
+        <div class="service-icon">🔧</div>
+        <h3 class="service-title">Root Canal</h3>
+        <p class="service-desc">Painless RCT with rotary endodontics. Save your natural tooth with comfortable, single-visit treatment.</p>
+        <div class="service-price"></div>
+        <div class="service-arrow"><svg viewBox="0 0 24 24" fill="white" width="16"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="service-card fade-up stagger-2">
+        <div class="service-icon">🧲</div>
+        <h3 class="service-title">Orthodontics</h3>
+        <p class="service-desc">Metal braces & clear aligners (Invisalign) for perfectly aligned teeth. Discreet & effective.</p>
+        <div class="service-price"></div>
+        <div class="service-arrow"><svg viewBox="0 0 24 24" fill="white" width="16"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="service-card fade-up stagger-3">
+        <div class="service-icon">🌿</div>
+        <h3 class="service-title">Gum Treatment</h3>
+        <p class="service-desc">Laser gum contouring & periodontal treatment. Healthy gums are the foundation of a great smile.</p>
+        <div class="service-price"></div>
+        <div class="service-arrow"><svg viewBox="0 0 24 24" fill="white" width="16"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="service-card fade-up stagger-4">
+        <div class="service-icon">👶</div>
+        <h3 class="service-title">Paediatric Dentistry</h3>
+        <p class="service-desc">Gentle, child-friendly dental care. Building healthy habits and confident smiles from childhood.</p>
+        <div class="service-price"></div>
+        <div class="service-arrow"><svg viewBox="0 0 24 24" fill="white" width="16"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BEFORE/AFTER GALLERY ===================== -->
+<section id="gallery" class="section-pad">
+  <div class="container">
+    <div class="gallery-intro">
+      <div>
+        <div class="section-tag fade-up">
+          <div class="tag-line"></div>
+          <span class="tag-text">Transformations</span>
+        </div>
+        <h2 class="section-title fade-up stagger-1">Real <em>Smile Stories</em></h2>
+        <p class="section-desc fade-up stagger-2">Drag the slider to see the life-changing difference. Real patients, real results.</p>
+      </div>
+    </div>
+  <!-- 3 Comparison Cards in a row -->
+    <div class="comparison-grid">
+      <!-- SLIDER 1: Implant Restoration -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="   https://i.ibb.co/gxcykHW/db251e54312e.jpg  " alt="Before missing tooth"></div>
+        <div class="ba-after"><img src="   https://i.ibb.co/HpKNpC95/8707669d8e72.jpg  " alt="After implant"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      <!-- SLIDER 2: Smile Makeover / Veneers -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="    https://i.ibb.co/zh9bLvrV/6846b6efc42d.jpg   " alt="Yellow teeth before"></div>
+        <div class="ba-after"><img src="     https://i.ibb.co/RGyQBKqD/580f0c8ae479.jpg" alt="White smile after"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      <!-- SLIDER 3: Orthodontics / Alignment -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="   https://i.ibb.co/rKGXX4Bj/2a551fa73607.jpg    " alt="Crooked teeth before"></div>
+        <div class="ba-after"><img src="   https://i.ibb.co/QjYyK26Y/32475f371d77.jpg     " alt="Perfect alignment after"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      
+      
+      
+      
+      
+      
+     <!-- SLIDER 1: Implant Restoration -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="https://i.ibb.co/B2R7K1jT/a5dbe441aa51.jpg " alt="Before missing tooth"></div>
+        <div class="ba-after"><img src="   https://i.ibb.co/WNzM5hQQ/51dd1f75ec28.jpg" alt="After implant"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      <!-- SLIDER 2: Smile Makeover / Veneers -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="https://i.ibb.co/bgqPhPB6/1478825ee39a.jpg" alt="Yellow teeth before"></div>
+        <div class="ba-after"><img src="   https://i.ibb.co/DHvpzjmM/3de58acac7f5.jpg  " alt="White smile after"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      <!-- SLIDER 3: Orthodontics / Alignment -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="    https://i.ibb.co/Kx262WBH/0c315755aa72.jpg" alt="Crooked teeth before"></div>   
+        <div class="ba-after"><img src="https://i.ibb.co/yxfFcxr/7fe7658746e5.jpg " alt="Perfect alignment after"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      
+      
+      
+       <!-- SLIDER 1: Implant Restoration -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="    https://i.ibb.co/BKHRcSZz/a0b2ea592a8c.jpg        " alt="Before missing tooth"></div>
+        <div class="ba-after"><img src="       https://i.ibb.co/7x1029q8/5183b5eda031.jpg" alt="After implant"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      <!-- SLIDER 2: Smile Makeover / Veneers -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="https://i.ibb.co/23wc5FQD/8d77765b5714.jpg" alt="Yellow teeth before"></div>
+        <div class="ba-after"><img src="https://i.ibb.co/Gffrh24V/70ca968e0143.jpg" alt="White smile after"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      <!-- SLIDER 3: Orthodontics / Alignment -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="    https://i.ibb.co/chr6R9CP/a2c2cea19387.jpg" alt="Crooked teeth before"></div>
+        <div class="ba-after"><img src="https://i.ibb.co/4Zwrsj9W/d48d2725bbfb.jpg" alt="Perfect alignment after"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      
+      
+      
+      
+      
+       <!-- SLIDER 1: Implant Restoration -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="   https://i.ibb.co/PGPGyJWr/27e347cf83c7.jpg" alt="Before missing tooth"></div>
+        <div class="ba-after"><img src="https://i.ibb.co/Pv0yRGZk/91a62000b2c2.jpg" alt="After implant"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      <!-- SLIDER 2: Smile Makeover / Veneers -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src=" https://i.ibb.co/WNKqJrW0/d75c84f42d1e.jpg  " alt="Yellow teeth before"></div>
+        <div class="ba-after"><img src=" https://i.ibb.co/4wnKcGvz/96b522176d1a.jpg" alt="White smile after"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      <!-- SLIDER 3: Orthodontics / Alignment -->
+      <div class="ba-slider-wrapper" data-slider>
+        <div class="ba-before"><img src="       https://i.ibb.co/zHbvhjNd/008d3111f882.jpg   " alt="Crooked teeth before"></div>
+        <div class="ba-after"><img src="   https://i.ibb.co/zhsDQBbk/efea939f6d6e.jpg         " alt="Perfect alignment after"></div>
+        <div class="ba-divider"></div><div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor"/></svg></div>
+        <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
+      </div>
+      
+      
+      
+      
+      
+      
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Photo Grid Gallery -->
+    <div class="gallery-grid" style="margin-top:32px;">
+      <div class="gallery-item">
+        <img src="https://i.ibb.co/BKSSp1Fm/966f7ee4301d.jpg" alt="Smile Result 1" loading="lazy">
+        <div class="gallery-item-overlay"></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.ibb.co/RkFX5W8F/2d909f4f4cb2.jpg" alt="Clinic" loading="lazy">
+        <div class="gallery-item-overlay"></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.ibb.co/dJLXVz06/65ce3a4fae58.jpg  " alt="Treatment" loading="lazy">
+        <div class="gallery-item-overlay"></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.ibb.co/4BDyYw4/c1498da855a0.jpg" alt="Dentist" loading="lazy">
+        <div class="gallery-item-overlay"></div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.ibb.co/QjrPccBD/427ab22db16b.jpg" alt="Happy Patient" loading="lazy">
+        <div class="gallery-item-overlay"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== AI SMILE ANALYSIS ===================== -->
+<section id="ai-scan" class="section-pad">
+  <div class="ai-bg-glow"></div>
+  <div class="container">
+    <div class="ai-grid">
+      <div class="fade-up">
+        <div class="section-tag">
+          <div class="tag-line" style="background:var(--gold-light)"></div>
+          <span class="tag-text" style="color:var(--gold-light)">AI Technology</span>
+        </div>
+        <h2 class="section-title light">Smart <em>Smile</em><br>Analysis</h2>
+        <p class="section-desc light" style="margin-bottom:32px;">
+          Our AI-powered smile analysis system evaluates your dental health in seconds — identifying areas of improvement and recommending the perfect treatment plan just for you.
+        </p>
+
+        <div class="ai-analysis-items" id="analysis-items">
+          <div class="analysis-item" style="--w:92%">
+            <span class="analysis-icon">🦷</span>
+            <div class="analysis-text">
+              <strong>Teeth Alignment</strong>
+              <span>Analysing jaw structure</span>
+            </div>
+            <div class="analysis-bar-wrap">
+              <div class="analysis-bar"><div class="analysis-bar-fill"></div></div>
+            </div>
+          </div>
+          <div class="analysis-item" style="--w:88%">
+            <span class="analysis-icon">✨</span>
+            <div class="analysis-text">
+              <strong>Whitening Potential</strong>
+              <span>Shade assessment</span>
+            </div>
+            <div class="analysis-bar-wrap">
+              <div class="analysis-bar"><div class="analysis-bar-fill"></div></div>
+            </div>
+          </div>
+          <div class="analysis-item" style="--w:95%">
+            <span class="analysis-icon">🌿</span>
+            <div class="analysis-text">
+              <strong>Gum Health</strong>
+              <span>Periodontal status</span>
+            </div>
+            <div class="analysis-bar-wrap">
+              <div class="analysis-bar"><div class="analysis-bar-fill"></div></div>
+            </div>
+          </div>
+          <div class="analysis-item" style="--w:78%">
+            <span class="analysis-icon">💎</span>
+            <div class="analysis-text">
+              <strong>Smile Symmetry</strong>
+              <span>Aesthetic evaluation</span>
+            </div>
+            <div class="analysis-bar-wrap">
+              <div class="analysis-bar"><div class="analysis-bar-fill"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="ai-scanner fade-up stagger-2">
+
+  <!-- Upload Input -->
+  <input type="file" id="imageUpload" accept="image/*" hidden>
+
+  <div class="scan-frame" onclick="document.getElementById('imageUpload').click()">
+    <img id="previewImage" class="scan-face-img" 
+         src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=600&q=80">
+    
+    <div class="scan-line"></div>
+    
+    <div class="scan-corners">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="scan-status">
+    <div class="scan-status-dot"></div>
+    <div class="scan-status-text" id="scanStatusText">
+      Upload image to start analysis
+    </div>
+  </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+  <button class="scan-upload-btn" onclick="runAnalysis()">
+    📸 Analyse My Smile
+  </button>
+
+  <!-- RESULT PANEL -->
+  <div id="ai-report" style="display:none; margin-top:20px;">
+    <h4 style="color:var(--gold-light); margin-bottom:10px;">AI Report</h4>
+    <ul id="reportList" style="font-size:0.8rem; color:#ccc; line-height:1.6;"></ul>
+  </div>
+
+</div>
+    </div>
+  </div>
+</section>
+  
+  
+  
+  
+  
+  
+  
+  <div id="lead-modal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 style="color: var(--white); font-family: var(--font-display); margin-bottom: 10px;">Get Your Detailed Report</h3>
+    <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 24px;">
+      Enter your details to download your customized AI Smile Analysis PDF and discuss your treatment plan.
+    </p>
+    
+    <div class="form-group">
+      <input type="text" id="leadName" placeholder="Full Name" required>
+    </div>
+    <div class="form-group">
+      <input type="tel" id="leadPhone" placeholder="Phone Number" required>
+    </div>
+    <div class="form-group">
+      <textarea id="leadAddress" placeholder="Your Address" style="height: 80px;"></textarea>
+    </div>
+    
+    <div style="display: flex; gap: 12px; margin-top: 10px;">
+      <button class="form-submit" onclick="submitLeadData()" style="flex: 2;">
+        📄 Download PDF
+      </button>
+      <button class="btn-premium secondary" onclick="closeModal()" style="flex: 1; padding: 14px; text-align: center; cursor: pointer; border-radius: 12px; border: none;">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section id="testimonials" class="section-pad">
+  <div class="container">
+    <div style="text-align:center; max-width:600px; margin:0 auto;">
+      <div class="section-tag fade-up" style="justify-content:center">
+        <div class="tag-line" style="background:var(--gold-light)"></div>
+        <span class="tag-text" style="color:var(--gold-light)">Patient Stories</span>
+        <div class="tag-line" style="background:var(--gold-light)"></div>
+      </div>
+      <h2 class="section-title light fade-up stagger-1">What Our <em>Patients</em> Say</h2>
+      <p class="section-desc light fade-up stagger-2" style="margin:0 auto;">Real stories from real people whose lives were transformed with their new smiles.</p>
+    </div>
+
+    <div class="test-swiper-container">
+      <div class="swiper" id="testimonialSwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" style="height:auto">
+            <div class="testimonial-card">
+              <div class="test-stars">★★★★★</div>
+              <p class="test-quote">I was extremely nervous about getting dental implants, but the team at SKK Dental made the entire process so comfortable. The result is absolutely stunning — I can't stop smiling!</p>
+              <div class="test-author">
+                <div class="test-avatar"><img src="https://i.ibb.co/spG4YtLk/cc541bc17573.jpg" alt="Priya" loading="lazy"></div>
+                <div>
+                  <div class="test-name">Priya Sharma</div>
+                  <div class="test-treatment">Dental Implant</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" style="height:auto">
+            <div class="testimonial-card">
+              <div class="test-stars">★★★★★</div>
+              <p class="test-quote">Best dental experience in Navsari by far! My smile makeover turned out better than I imagined. Professional, caring, and the clinic is absolutely beautiful. Highly recommended!</p>
+              <div class="test-author">
+                <div class="test-avatar"><img src="https://i.ibb.co/TqpbTcYH/bcdfff8adf71.jpg" alt="Rajesh" loading="lazy"></div>
+                <div>
+                  <div class="test-name">Rajesh Patel</div>
+                  <div class="test-treatment">Smile Makeover</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" style="height:auto">
+            <div class="testimonial-card">
+              <div class="test-stars">★★★★★</div>
+              <p class="test-quote">The Invisalign treatment at SKK Dental completely transformed my teeth in 14 months. The doctor was incredibly patient and attentive throughout. Worth every rupee!</p>
+              <div class="test-author">
+                <div class="test-avatar"><img src="https://i.ibb.co/Cph5vZXB/4847ed6720e9.jpg" alt="Meera" loading="lazy"></div>
+                <div>
+                  <div class="test-name">Meera Desai</div>
+                  <div class="test-treatment">Invisalign Braces</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" style="height:auto">
+            <div class="testimonial-card">
+              <div class="test-stars">★★★★★</div>
+              <p class="test-quote">I was in severe pain with a cracked tooth. The emergency appointment was arranged quickly and the root canal was absolutely painless. Dr. is truly skilled and compassionate.</p>
+              <div class="test-author">
+                <div class="test-avatar"><img src="https://i.ibb.co/jkQGSYzS/4b14f60b1d76.jpg" alt="Kiran" loading="lazy"></div>
+                <div>
+                  <div class="test-name">Kiran Mehta</div>
+                  <div class="test-treatment">Root Canal Treatment</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" style="height:auto">
+            <div class="testimonial-card">
+              <div class="test-stars">★★★★★</div>
+              <p class="test-quote">Teeth whitening done here — 8 shades brighter in one session! The clinic is so luxurious and hygienic. Staff are warm and friendly. This is definitely the best clinic in South Gujarat.</p>
+              <div class="test-author">
+                <div class="test-avatar"><img src="https://i.ibb.co/4g7W1nDB/97bf18fc709e.jpg" alt="Anjali" loading="lazy"></div>
+                <div>
+                  <div class="test-name">Anjali Shah</div>
+                  <div class="test-treatment">Teeth Whitening</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination" style="position:relative; margin-top:32px;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ===================== APPOINTMENT BOOKING ===================== -->
+<section id="booking" class="section-pad">
+  <div class="container">
+    <div class="booking-grid">
+      <div class="booking-info fade-up">
+        <div class="section-tag">
+          <div class="tag-line" style="background:var(--gold-light)"></div>
+          <span class="tag-text" style="color:var(--gold-light)">Easy Booking</span>
+        </div>
+        <h2 class="section-title light">Book Your<br><em>Free Consultation</em></h2>
+
+        <div class="urgency-banner">
+          <span class="urgency-icon">⏰</span>
+          <div class="urgency-text">
+            <strong>Limited Slots Available Today!</strong>
+            <p>Only 3 appointment slots remaining — Book now to avoid waiting.</p>
+          </div>
+        </div>
+
+        <div class="booking-feature">
+          <div class="booking-feature-icon">📍</div>
+          <div class="booking-feature-text">
+            <strong>In-Clinic Visit</strong>
+            <p>Monday–Saturday, 10 AM – 1 PM & 4 PM – 8 PM</p>
+          </div>
+        </div>
+        <div class="booking-feature">
+          <div class="booking-feature-icon">📞</div>
+          <div class="booking-feature-text">
+            <strong>Phone Booking</strong>
+            <p>Call us at +918059908969 for instant appointment</p>
+          </div>
+        </div>
+        <div class="booking-feature">
+          <div class="booking-feature-icon">💬</div>
+          <div class="booking-feature-text">
+            <strong>WhatsApp Booking</strong>
+            <p>Quick response within 15 minutes on WhatsApp</p>
+          </div>
+        </div>
+        <div class="booking-feature">
+          <div class="booking-feature-icon">🎁</div>
+          <div class="booking-feature-text">
+            <strong>Free First Consultation</strong>
+            <p>Complimentary X-ray + Consultation for new patients</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-form fade-up stagger-2">
+        <h3>Book Appointment</h3>
+        <p>Fill the form and we'll call you back within 30 minutes.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="Your Name" id="fname">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+91 XXXXX XXXXX" id="phone">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="your@email.com" id="email">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Treatment</label>
+            <select id="treatment">
+              <option value="">Select Treatment</option>
+              <option>Dental Implants</option>
+              <option>Smile Makeover</option>
+              <option>Teeth Whitening</option>
+              <option>Braces / Invisalign</option>
+              <option>Root Canal</option>
+              <option>Crowns & Bridges</option>
+              <option>Gum Treatment</option>
+              <option>General Checkup</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Preferred Date</label>
+            <input type="date" id="appt-date">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Message (Optional)</label>
+          <textarea placeholder="Tell us about your dental concerns..."></textarea>
+        </div>
+        
+       <a href="https://wa.me/918059908969?text=Hi%20SKK%20Dental%2C%20I%20want%20to%20book%20an%20appointment" 
+   target="_blank" 
+   class="form-whatsapp">
+  💬 Book via WhatsApp 
+</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ SECTION ===================== -->
+<section id="faq" class="section-pad">
+  <div class="container">
+    <div class="faq-grid">
+      <div class="fade-up">
+        <div class="section-tag">
+          <div class="tag-line"></div>
+          <span class="tag-text">FAQ</span>
+        </div>
+        <h2 class="section-title">Common <em>Questions</em><br>Answered</h2>
+        <p class="section-desc" style="margin-bottom:28px;">Have more questions? Our team is happy to help you with any concerns about your dental care.</p>
+       <a href="https://wa.me/918059908969" target="_blank" class="ask-btn">
+  <span class="ask-icon">💬</span>
+  Ask Us Anything
+</a>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">Is dental implant surgery painful?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer"><p>No — implant surgery is performed under local anesthesia, making the procedure completely painless. Most patients report feeling only light pressure. Post-operative discomfort is minimal and manageable with standard pain relievers for 2-3 days.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">How long does a smile makeover take?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer"><p>A smile makeover typically takes 2-4 appointments spread over 1-3 weeks, depending on the treatments involved. Simple cases like whitening + veneers can be completed in as little as one week.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">Do you offer EMI / payment options?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer"><p>Yes! We offer 0% EMI options through major credit cards and finance partners. We also accept UPI, cash, and all major payment methods. Affordable dental care should be accessible to everyone.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">How often should I visit the dentist?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer"><p>We recommend visiting every 6 months for routine checkups and cleaning. Regular visits help catch issues early, preventing costly treatments. Your first consultation at SKK Dental is completely free!</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">Are you open on weekends?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer"><p>We are open Monday through Saturday, 10 AM – 1 PM and 4 PM – 8 PM. We are closed on Sundays. Emergency consultations can be arranged on WhatsApp even outside working hours.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">Is the clinic hygienic and sterilised?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer"><p>Absolutely. We maintain hospital-grade sterilisation with autoclave technology. All instruments are single-use or sterilised after each patient. We follow strict infection control protocols exceeding standard guidelines.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT & MAP ===================== -->
+<section id="contact" class="section-pad">
+  <div class="container">
+
+    <!-- HEADER -->
+    <div style="text-align:center; max-width:560px; margin:0 auto 56px;">
+      <div class="section-tag fade-up" style="justify-content:center">
+        <div class="tag-line"></div>
+        <span class="tag-text">Find Us</span>
+        <div class="tag-line"></div>
+      </div>
+
+      <h2 class="section-title fade-up stagger-1" style="text-align:center;">
+        Visit <em>SKK Dental</em><br>in Navsari
+      </h2>
+    </div>
+
+    <!-- GRID -->
+    <div class="contact-grid">
+
+      <!-- LEFT CARD -->
+      <div class="contact-card fade-up">
+
+        <!-- ADDRESS -->
+        <div class="contact-item">
+          <div class="contact-ico">📍</div>
+          <div>
+            <div class="contact-item-label">Address</div>
+            <div class="contact-item-val">
+              Shri Krishna Kripa Dental Clinic,<br>
+              Navsari, Gujarat – 396445
+            </div>
+          </div>
+        </div>
+
+        <!-- PHONE -->
+        <div class="contact-item">
+          <div class="contact-ico">📞</div>
+          <div>
+            <div class="contact-item-label">Phone</div>
+            <div class="contact-item-val">
+              <a href="tel:+918059908969" style="color:inherit; text-decoration:none;">
+                +91 8059908969
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="contact-item">
+          <div class="contact-ico">📧</div>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-val">
+              sakshisinglabds@gmail.com<br>
+              sakshisinglabds@gmail.com
+            </div>
+          </div>
+        </div>
+
+        <!-- TIMINGS -->
+        <div class="contact-item">
+          <div class="contact-ico">🕐</div>
+          <div>
+            <div class="contact-item-label">Timings</div>
+            <div class="contact-item-val">
+              Mon – Sat: 10 AM – 1 PM<br>
+              4 PM – 8 PM | Sun: Closed
+            </div>
+          </div>
+        </div>
+
+        <!-- SOCIAL -->
+        <div class="social-links">
+          <a class="social-btn" href="#" title="Instagram">📷</a>
+          <a class="social-btn" href="#" title="Facebook">📘</a>
+         <a 
+  href="https://wa.me/918059908969?text=Hello%20SKK%20Dental%2C%20I%20want%20to%20book%20a%20consultation" 
+  target="_blank"
+  class="whatsapp-btn"
+>
+  <span class="wa-icon">💬</span>
+  <span>Instant Consultation</span>
+</a>
+          <a class="social-btn" href="#" title="YouTube">▶️</a>
+        </div>
+
+      </div>
+
+      <!-- MAP -->
+      <div class="map-container fade-up stagger-2">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59706.97906064637!2d72.87870415!3d20.9459845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be0d39b77a432e3%3A0x49f5d9dbf9c04be6!2sNavsari%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">SKK <span>Dental</span></div>
+      <div class="footer-tagline">Designing Smiles That Define You</div>
+      <p style="font-size:0.85rem; line-height:1.7; max-width:280px;">
+        Shri Krishna Kripa Implant & Dental Clinic — Navsari's most trusted dental destination since 2019.
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="#about">About Clinic</a></li>
+        <li><a href="#doctor">Meet the Doctor</a></li>
+        <li><a href="#services">Treatments</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Treatments</h4>
+      <ul class="footer-links">
+        <li><a href="#services">Dental Implants</a></li>
+        <li><a href="#services">Smile Makeover</a></li>
+        <li><a href="#services">Teeth Whitening</a></li>
+        <li><a href="#services">Orthodontics</a></li>
+        <li><a href="#services">Root Canal</a></li>
+        <li><a href="#services">Crowns & Bridges</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul class="footer-links">
+        <li><a href="tel:+918059908969">+91 8059908969</a></li>
+        <li><a href="mailto:info@skkdental.in">sakshisinglabds@gmail.com</a></li>
+        <li><a href="#">Navsari, Gujarat</a></li>
+        <li><a href="#booking">Book Appointment</a></li>
+        <li><a href="https://wa.me/918059908969" target="_blank">WhatsApp Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <span class="gold">SKK Dental – Shri Krishna Kripa Implant & Dental Clinic</span>. All rights reserved.</p>
+    <p>Navsari, Gujarat | <span class="gold">Dev. by (Hind Web Tech)</span></p>
+  </div>
+</footer>
+
+<!-- ===================== FLOATING CTA ===================== -->
+<div class="floating-cta">
+  <a href="tel:+918059908969" class="float-call" title="Call Us">📞</a>
+  <a href="https://wa.me/918059908969?text=Hi%20SKK%20Dental%2C%20I%20want%20to%20book%20an%20appointment" target="_blank" class="float-wa" title="WhatsApp">💬</a>
+</div>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+// ============================================================
+// GSAP REGISTER
+// ============================================================
+gsap.registerPlugin(ScrollTrigger);
+
+// ============================================================
+// LOADING SCREEN
+// ============================================================
+const loaderFill = document.getElementById('loader-fill');
+const loaderPercent = document.getElementById('loader-percent');
+const loaderLogo = document.getElementById('loader-logo');
+const loaderTagline = document.getElementById('loader-tagline');
+const loadingScreen = document.getElementById('loading-screen');
+
+gsap.to(loaderLogo, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.2 });
+gsap.to(loaderTagline, { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.6 });
+
+let loadProgress = 0;
+const loadInterval = setInterval(() => {
+  loadProgress += Math.random() * 4 + 1;
+  if (loadProgress >= 100) {
+    loadProgress = 100;
+    clearInterval(loadInterval);
+    loaderFill.style.width = '100%';
+    loaderPercent.textContent = '100%';
+    setTimeout(() => {
+      gsap.to(loadingScreen, {
+        opacity: 0, duration: 0.8, ease: 'power2.inOut',
+        onComplete: () => { loadingScreen.style.display = 'none'; animateHero(); }
+      });
+    }, 400);
+  } else {
+    loaderFill.style.width = loadProgress + '%';
+    loaderPercent.textContent = Math.floor(loadProgress) + '%';
+  }
+}, 40);
+
+// ============================================================
+// HERO ANIMATION
+// ============================================================
+function animateHero() {
+  const tl = gsap.timeline();
+  tl.from('#hero-badge', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' })
+    .from('#hero-title', { y: 50, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.4')
+    .from('#hero-sub', { y: 20, opacity: 0, duration: 0.7, ease: 'power2.out' }, '-=0.5')
+    .from('#hero-loc', { y: 20, opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4')
+    .from('#hero-btns', { y: 20, opacity: 0, duration: 0.7, ease: 'power2.out' }, '-=0.3');
+}
+
+// ============================================================
+// CUSTOM CURSOR
+// ============================================================
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let cursorX = 0, cursorY = 0, ringX = 0, ringY = 0;
+
+document.addEventListener('mousemove', e => {
+  cursorX = e.clientX; cursorY = e.clientY;
+  dot.style.left = cursorX + 'px';
+  dot.style.top = cursorY + 'px';
+});
+
+function animateCursor() {
+  ringX += (cursorX - ringX) * 0.12;
+  ringY += (cursorY - ringY) * 0.12;
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+document.querySelectorAll('a, button, .service-card, .faq-question, .tour-item, .gallery-item').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+// ============================================================
+// SCROLL PROGRESS
+// ============================================================
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const max = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('scroll-progress').style.width = (scrolled / max * 100) + '%';
+});
+
+// ============================================================
+// NAVBAR SCROLL
+// ============================================================
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ============================================================
+// MOBILE MENU
+// ============================================================
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobile-menu').classList.add('active');
+});
+document.getElementById('mobile-close').addEventListener('click', () => {
+  document.getElementById('mobile-menu').classList.remove('active');
+});
+
+// ============================================================
+// PARTICLE CANVAS (HERO)
+// ============================================================
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+    this.size = Math.random() * 2 + 0.5;
+    this.alpha = Math.random() * 0.5 + 0.1;
+    this.color = Math.random() > 0.5 ? '#C8A96E' : '#FFFFFF';
+  }
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  // Connect nearby particles
+  particles.forEach((p1, i) => {
+    particles.slice(i + 1).forEach(p2 => {
+      const d = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+      if (d < 80) {
+        ctx.save();
+        ctx.globalAlpha = (1 - d / 80) * 0.12;
+        ctx.strokeStyle = '#C8A96E';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+        ctx.restore();
+      }
+    });
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ============================================================
+// MOUSE PARALLAX ON HERO
+// ============================================================
+document.addEventListener('mousemove', e => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 12;
+  const heroBg = document.querySelector('.hero-bg-img');
+  if (heroBg) {
+    heroBg.style.transform = `scale(1.08) translate(${x * 0.3}px, ${y * 0.3}px)`;
+  }
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    heroContent.style.transform = `translate(${x * 0.05}px, ${y * 0.05}px)`;
+  }
+});
+
+// ============================================================
+// SCROLL INTERSECTION OBSERVER (fade-up / fade-in)
+// ============================================================
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-up, .fade-in').forEach(el => observer.observe(el));
+
+// ============================================================
+// ANIMATED COUNTERS
+// ============================================================
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.count').forEach(countEl => {
+        const target = parseFloat(countEl.getAttribute('data-target'));
+        const isDecimal = target % 1 !== 0;
+        let current = 0;
+        const duration = 1800;
+        const step = target / (duration / 16);
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          countEl.textContent = isDecimal ? current.toFixed(1) : Math.floor(current).toLocaleString();
+        }, 16);
+      });
+      countObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('#trust-bar, #doctor').forEach(el => countObserver.observe(el));
+
+// ============================================================
+// BEFORE / AFTER SLIDER
+// ============================================================
+function initComparisonSlider(wrapper) {
+  const beforeImg = wrapper.querySelector('.ba-before img');
+  const afterImg = wrapper.querySelector('.ba-after img');
+  const afterDiv = wrapper.querySelector('.ba-after');
+  const divider = wrapper.querySelector('.ba-divider');
+  const handle = wrapper.querySelector('.ba-handle');
+  if (!afterDiv || !divider || !handle) return;
+  let isDragging = false;
+  function updatePosition(clientX) {
+    const rect = wrapper.getBoundingClientRect();
+    let percent = ((clientX - rect.left) / rect.width) * 100;
+    percent = Math.min(Math.max(percent, 5), 95);
+    afterDiv.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+    divider.style.left = percent + '%';
+    handle.style.left = percent + '%';
+  }
+  function onMove(e) { if(isDragging) updatePosition(e.clientX); }
+  function onStart(e) { isDragging = true; updatePosition(e.clientX); e.preventDefault(); }
+  function onEnd() { isDragging = false; }
+  wrapper.addEventListener('mousedown', onStart);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onEnd);
+  wrapper.addEventListener('touchstart', (e) => { isDragging = true; updatePosition(e.touches[0].clientX); e.preventDefault(); });
+  document.addEventListener('touchmove', (e) => { if(isDragging) updatePosition(e.touches[0].clientX); });
+  document.addEventListener('touchend', onEnd);
+  // Set default at 50%
+  afterDiv.style.clipPath = `inset(0 50% 0 0)`;
+  divider.style.left = '50%';
+  handle.style.left = '50%';
+}
+document.querySelectorAll('.ba-slider-wrapper').forEach(wrapper => initComparisonSlider(wrapper));
+
+// ============================================================
+// AI SCAN ANIMATION
+// ============================================================
+// ===============================
+// IMAGE UPLOAD + PREVIEW
+// ===============================
+
+const imageUpload = document.getElementById("imageUpload");
+const previewImage = document.getElementById("previewImage");
+const statusText = document.getElementById("scanStatusText");
+
+if (imageUpload) {
+  imageUpload.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      alert("Please upload a valid image file.");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      previewImage.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+
+    statusText.innerText = "📷 Image uploaded. Ready to analyze.";
+  });
+}
+
+
+// ===============================
+// RANDOM SCORE GENERATOR
+// ===============================
+
+function generateRandomScore(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+// ===============================
+// MAIN AI ANALYSIS FUNCTION
+// ===============================
+
+// ===============================
+// MAIN AI ANALYSIS FUNCTION
+// ===============================
+function runAnalysis() {
+  const reportBox = document.getElementById("ai-report");
+  const reportList = document.getElementById("reportList");
+  const statusText = document.getElementById("scanStatusText");
+  const previewImage = document.getElementById("previewImage");
+
+  if (!previewImage.src || previewImage.src.includes("1606811971618-4486d14f3f99")) {
+    // Basic check to ensure they uploaded something new (optional)
+  }
+
+  // Reset UI
+  statusText.innerText = "🔍 AI analyzing smile...";
+  reportBox.style.display = "none";
+  reportList.innerHTML = "";
+
+  const items = document.querySelectorAll(".analysis-item");
+
+  items.forEach(item => {
+    item.classList.remove("visible");
+    item.style.setProperty("--w", "0%");
+  });
+
+  // Simulate AI delay
+  setTimeout(() => {
+    const alignment = Math.floor(Math.random() * 26) + 70;
+    const whitening = Math.floor(Math.random() * 31) + 60;
+    const gum = Math.floor(Math.random() * 24) + 75;
+    const symmetry = Math.floor(Math.random() * 28) + 65;
+    const values = [alignment, whitening, gum, symmetry];
+
+    items.forEach((item, i) => {
+      setTimeout(() => {
+        item.style.setProperty("--w", values[i] + "%");
+        item.classList.add("visible");
+      }, i * 200);
+    });
+
+    const insights = [];
+    if (alignment < 80) insights.push("Mild misalignment detected — orthodontic consultation recommended.");
+    if (whitening < 75) insights.push("Tooth discoloration present — whitening treatment advised.");
+    if (gum < 85) insights.push("Gum health requires attention — possible early-stage gingivitis.");
+    if (symmetry < 80) insights.push("Smile asymmetry detected — cosmetic enhancement possible.");
+    if (insights.length === 0) insights.push("Excellent smile condition — no major issues detected.");
+
+    insights.forEach(text => {
+      const li = document.createElement("li");
+      li.innerText = "• " + text;
+      reportList.appendChild(li);
+    });
+
+    reportBox.style.display = "block";
+    statusText.innerHTML = "✅ Analysis Complete";
+
+    // Show the modal slightly after the results render
+    setTimeout(() => {
+      document.getElementById('lead-modal').classList.add('active');
+    }, 1200);
+
+  }, 2500);
+}
+
+// ===============================
+// MODAL & DATA HANDLING
+// ===============================
+function closeModal() {
+  document.getElementById('lead-modal').classList.remove('active');
+}
+
+function submitLeadData() {
+  const name = document.getElementById('leadName').value;
+  const phone = document.getElementById('leadPhone').value;
+  const address = document.getElementById('leadAddress').value;
+  
+  if (!name || !phone) {
+    alert('Please provide at least your name and phone number.');
+    return;
+  }
+
+  // Grab the report text generated by the AI
+  const reportContent = document.getElementById('reportList').innerText;
+
+  // 1. Generate the PDF
+  // Change this line inside submitLeadData():
+generatePDF(name, phone, reportContent);
+
+  // 2. Send Data to Google Sheets
+  sendToGoogleSheets(name, phone, address, reportContent);
+
+  // Close Modal and clear inputs
+  closeModal();
+  document.getElementById('leadName').value = '';
+  document.getElementById('leadPhone').value = '';
+  document.getElementById('leadAddress').value = '';
+  alert('Thank you! Your PDF is downloading and our team will contact you shortly.');
+}
+  
+  
+  
+  
+  
+  
+  
+  
+function generatePDF(name, phone, reportContent) {
+  // 1. Initialize pure jsPDF (A4 size document)
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('p', 'mm', 'a4'); 
+
+  // --- Brand Colors ---
+  const navy = [10, 15, 30];         // #0A0F1E
+  const gold = [200, 169, 110];      // #C8A96E
+  const darkGold = [168, 137, 62];   // #A8893E
+  const cream = [250, 249, 247];     // #FAF9F7
+  const textDark = [40, 40, 40];
+
+  // ==========================================
+  // PAGE BORDER
+  // ==========================================
+  doc.setDrawColor(...gold);
+  doc.setLineWidth(0.5);
+  doc.rect(10, 10, 190, 277); // Outer gold frame
+
+  // ==========================================
+  // HEADER BANNER
+  // ==========================================
+  doc.setFillColor(...navy);
+  doc.rect(10, 10, 190, 40, 'F'); // Navy background block
+
+  // Logo Text (Left)
+  doc.setTextColor(255, 255, 255);
+  doc.setFont("times", "bold");
+  doc.setFontSize(28);
+  doc.text("SKK", 20, 30);
+  
+  doc.setTextColor(...gold);
+  doc.text("Dental", 44, 30);
+
+  // Tagline
+  doc.setFont("times", "italic");
+  doc.setFontSize(12);
+  doc.setTextColor(200, 200, 200);
+  doc.text("Designing Smiles That Define You", 20, 40);
+
+  // Clinic Details (Right)
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(255, 255, 255);
+  doc.text("+91 98765 43210", 185, 28, { align: "right" });
+  doc.text("Navsari, Gujarat", 185, 34, { align: "right" });
+
+  // ==========================================
+  // REPORT TITLE
+  // ==========================================
+  let currentY = 75;
+  doc.setFont("times", "bold");
+  doc.setFontSize(22);
+  doc.setTextColor(...navy);
+  doc.text("AI SMILE ANALYSIS REPORT", 105, currentY, { align: "center" });
+  
+  // Gold Underline
+  currentY += 6;
+  doc.setDrawColor(...gold);
+  doc.setLineWidth(1);
+  doc.line(70, currentY, 140, currentY);
+
+  // ==========================================
+  // PATIENT INFO BOX
+  // ==========================================
+  currentY += 15;
+  doc.setFillColor(...cream);
+  doc.setDrawColor(...gold);
+  doc.setLineWidth(0.3);
+  doc.rect(20, currentY, 170, 25, 'FD'); // Box with Fill and Draw (border)
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(...navy);
+  doc.text("PATIENT INFORMATION", 25, currentY + 7);
+
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...textDark);
+  doc.text(`Name: ${name}`, 25, currentY + 16);
+  doc.text(`Phone: ${phone}`, 25, currentY + 22);
+  
+  const dateStr = new Date().toLocaleDateString('en-GB'); // Format: DD/MM/YYYY
+  doc.text(`Date: ${dateStr}`, 130, currentY + 16);
+  doc.text(`Scan ID: SKK-${Math.floor(Math.random()*9000)+1000}`, 130, currentY + 22);
+
+  // ==========================================
+  // AI FINDINGS SECTION
+  // ==========================================
+  currentY += 45;
+  doc.setFont("times", "bold");
+  doc.setFontSize(18);
+  doc.setTextColor(...darkGold);
+  doc.text("Clinical AI Observations", 20, currentY);
+
+  currentY += 12;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(12);
+  doc.setTextColor(...textDark);
+
+  // Parse the report content into individual bullet points
+  const items = reportContent.split('•').filter(i => i.trim() !== '');
+  
+  items.forEach(item => {
+    const cleanText = item.trim();
+    
+    // Draw Custom Gold Bullet Point
+    doc.setFillColor(...gold);
+    doc.circle(23, currentY - 1.5, 1.5, 'F');
+    
+    // Wrap text to fit page bounds
+    const splitText = doc.splitTextToSize(cleanText, 160);
+    doc.text(splitText, 28, currentY);
+    
+    // Push Y coordinate down based on how many lines the text took
+    currentY += (splitText.length * 7) + 5;
+  });
+
+  // ==========================================
+  // PREMIUM CALL TO ACTION BOX
+  // ==========================================
+  currentY += 10;
+  doc.setFillColor(...navy);
+  doc.rect(20, currentY, 170, 35, 'F'); // Solid navy block
+  
+  doc.setFont("times", "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(...gold);
+  doc.text("Next Steps for Your Perfect Smile", 25, currentY + 10);
+  
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
+  doc.setTextColor(255, 255, 255);
+  const ctaText = doc.splitTextToSize("Based on your AI scan, we highly recommend scheduling a comprehensive physical examination. Present this report at the reception to receive your complimentary X-ray & Consultation.", 160);
+  doc.text(ctaText, 25, currentY + 18);
+
+  // ==========================================
+  // FOOTER DISCLAIMER
+  // ==========================================
+  const footerY = 270;
+  doc.setFillColor(...navy);
+  doc.rect(10, footerY - 10, 190, 27, 'F'); // Bottom Navy Banner
+  
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(9);
+  doc.setTextColor(150, 150, 150);
+  doc.text("Disclaimer: This AI analysis is preliminary and does not serve as a professional medical diagnosis.", 105, footerY - 2, { align: "center" });
+  doc.text("Please consult our specialists for a definitive, personalized treatment plan.", 105, footerY + 3, { align: "center" });
+  
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(...gold);
+  doc.text("Shri Krishna Kripa Dental Clinic | info@skkdental.in | www.skkdental.in", 105, footerY + 11, { align: "center" });
+
+  // ==========================================
+  // TRIGGER DOWNLOAD
+  // ==========================================
+  const fileName = `${name.replace(/\s+/g, '_')}_Premium_Smile_Report.pdf`;
+  doc.save(fileName);
+}
+  
+  
+  
+  
+function sendToGoogleSheets(name, phone, address, report) {
+  // Replace this URL with your deployed Google Web App URL (See instructions below)
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzO6dYKZPBYjpr-OxhfVx2x6C77bB276aWLG4z-hr21rgbihlU3ehelPvvo602-u1KR/exec'; 
+
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('phone', phone);
+  formData.append('address', address);
+  formData.append('report', report);
+
+  // Use fetch to post data to Google Apps Script
+  fetch(scriptURL, { method: 'POST', body: formData })
+    .then(response => console.log('Successfully sent to Google Sheets'))
+    .catch(error => console.error('Error!', error.message));
+}
+
+// ============================================================
+// 3D TILT ON SERVICE CARDS
+// ============================================================
+document.querySelectorAll('.service-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2, cy = rect.height / 2;
+    const rotX = (y - cy) / cy * -8;
+    const rotY = (x - cx) / cx * 8;
+    card.style.transform = `translateY(-8px) scale(1.01) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    card.style.transition = 'transform 0.1s ease';
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+  });
+});
+
+// ============================================================
+// TESTIMONIAL SWIPER
+// ============================================================
+new Swiper('#testimonialSwiper', {
+  slidesPerView: 1,
+  spaceBetween: 24,
+  loop: true,
+  autoplay: { delay: 4000, disableOnInteraction: false },
+  pagination: { el: '.swiper-pagination', clickable: true },
+  breakpoints: {
+    640: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 }
+  }
+});
+
+// ============================================================
+// FAQ ACCORDION
+// ============================================================
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ============================================================
+// FORM SUBMISSION
+// ============================================================
+function submitForm() {
+  const name = document.getElementById('fname').value;
+  const phone = document.getElementById('phone').value;
+  const treatment = document.getElementById('treatment').value;
+
+  if (!name || !phone) {
+    alert('Please fill in your name and phone number.');
+    return;
+  }
+
+  // WhatsApp redirect with form data
+  const message = `Hello SKK Dental! 🦷\n\nName: ${name}\nPhone: ${phone}\nTreatment: ${treatment || 'To be discussed'}\n\nI'd like to book an appointment. Please confirm my slot.`;
+  const wa = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+  window.open(wa, '_blank');
+}
+
+// ============================================================
+// GSAP SCROLL ANIMATIONS
+// ============================================================
+gsap.from('#trust-bar .trust-item', {
+  scrollTrigger: { trigger: '#trust-bar', start: 'top 80%' },
+  y: 30, opacity: 0, stagger: 0.1, duration: 0.6, ease: 'power2.out'
+});
+
+gsap.from('.tour-item', {
+  scrollTrigger: { trigger: '#clinic-tour', start: 'top 70%' },
+  scale: 0.92, opacity: 0, stagger: 0.1, duration: 0.6, ease: 'power2.out'
+});
+
+gsap.from('.booking-feature', {
+  scrollTrigger: { trigger: '#booking', start: 'top 70%' },
+  x: -30, opacity: 0, stagger: 0.15, duration: 0.6, ease: 'power2.out'
+});
+
+// ============================================================
+// SMOOTH SCROLLING
+// ============================================================
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// ============================================================
+// SCROLL PARALLAX ON SECTIONS
+// ============================================================
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  const heroBg = document.querySelector('.hero-bg-img');
+  if (heroBg) heroBg.style.transform = `scale(1.08) translateY(${scrollY * 0.25}px)`;
+});
+
+// ============================================================
+// DOC STAT NUMBER ANIMATION (when doctor section visible)
+// ============================================================
+const docObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    document.querySelectorAll('#doctor .count').forEach(countEl => {
+      const target = parseInt(countEl.getAttribute('data-target'));
+      let current = 0;
+      const duration = 1600;
+      const step = target / (duration / 16);
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(timer); }
+        countEl.textContent = Math.floor(current).toLocaleString();
+      }, 16);
+    });
+    docObserver.unobserve(entries[0].target);
+  }
+}, { threshold: 0.3 });
+const doctorSection = document.getElementById('doctor');
+if (doctorSection) docObserver.observe(doctorSection);
+
+</script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <script>
+const slides = document.querySelectorAll('.slide');
+let currentIndex = 0;
+
+function rotateSlides() {
+  slides[currentIndex].classList.remove('active');
+  currentIndex = (currentIndex + 1) % slides.length;
+  slides[currentIndex].classList.add('active');
+}
+
+setInterval(rotateSlides, 3500); // slightly faster for 10 images
+    
+    
+    
+    
+    
+    
+    
+    
+    function getWhatsAppLink() {
+  const name = document.getElementById('fname').value || "Patient";
+  const treatment = document.getElementById('treatment').value || "consultation";
+
+  const message = `Hi SKK Dental, I am ${name} and I want to book a ${treatment}.`;
+  return `https://wa.me/918059908969?text=${encodeURIComponent(message)}`;
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</script>
+  
+  
+  
+  
+  
+  
+  
+</body>
+</html>
