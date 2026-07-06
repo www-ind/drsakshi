@@ -744,56 +744,29 @@
 
     .doctor-img-wrap {
       position: relative;
-      perspective: 1500px;
-      aspect-ratio: 3/4;
-      max-height: 580px;
-      width: 100%;
     }
 
-    .doctor-img-card {
-      width: 100%;
-      height: 100%;
-      position: relative;
-    }
-
-    .doctor-img-card-inner {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-    }
-
-    .doctor-img-face {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
+    .doctor-img {
       border-radius: var(--radius);
       overflow: hidden;
-      box-shadow: var(--shadow-soft);
+      aspect-ratio: 3/4;
+      max-height: 580px;
     }
 
-    .doctor-img-face img {
+    .doctor-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: top;
-      display: block;
-    }
-
-    .doctor-img-face.face-back {
-      transform: rotateY(180deg);
     }
 
     .doctor-glow {
       position: absolute;
-      inset: -4px;
-      border-radius: calc(var(--radius) + 4px);
+      inset: -2px;
+      border-radius: calc(var(--radius) + 2px);
       background: linear-gradient(135deg, var(--gold-dark), transparent, var(--gold));
       z-index: -1;
-      opacity: 0.6;
+      opacity: 0.5;
     }
 
     .doctor-stats-grid {
@@ -2469,10 +2442,6 @@
       transition: transform 0.4s ease;
     }
 
-    .modal-content.service-modal-content {
-      max-width: 550px;
-    }
-
     .modal-overlay.active .modal-content {
       transform: translateY(0);
     }
@@ -2569,71 +2538,6 @@
     /* pause on hover */
     .image-strip:hover .image-track {
       animation-play-state: paused;
-    }
-
-    /* ============================================================
-       AI SCAN IMAGE STRIP (380px x 380px)
-    ============================================================ */
-    .ai-image-strip {
-      width: 100%;
-      overflow: hidden;
-      background: var(--navy);
-      padding: 40px 0;
-      border-top: 1px solid rgba(200, 169, 110, 0.15);
-      border-bottom: 1px solid rgba(200, 169, 110, 0.15);
-    }
-
-    .ai-image-track {
-      display: flex;
-      gap: 20px;
-      width: max-content;
-      animation: scrollAiImages 45s linear infinite;
-    }
-
-    .ai-image-track img {
-      height: 380px;
-      width: 380px;
-      object-fit: cover;
-      border-radius: 16px;
-      border: 1px solid rgba(200, 169, 110, 0.20);
-      transition: transform 0.4s ease, border-color 0.4s ease, filter 0.4s ease;
-      filter: brightness(0.9);
-    }
-
-    .ai-image-track img:hover {
-      transform: scale(1.03);
-      filter: brightness(1);
-      border-color: var(--gold);
-    }
-
-    /* Pause on hover */
-    .ai-image-strip:hover .ai-image-track {
-      animation-play-state: paused;
-    }
-
-    @keyframes scrollAiImages {
-      0% {
-        transform: translateX(0);
-      }
-
-      100% {
-        transform: translateX(-50%);
-      }
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .ai-image-track img {
-        height: 280px;
-        width: 280px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .ai-image-track img {
-        height: 220px;
-        width: 220px;
-      }
     }
 
 
@@ -2820,8 +2724,11 @@
 
   <!-- ===================== NAVBAR ===================== -->
   <nav id="navbar">
-    <a href="#" class="nav-logo">
-      <img src="https://i.ibb.co/93gNJZsw/59b71e40f9d8.jpg" alt="SKK Dental Logo">
+    <a href="#" class="nav-logo" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+      <svg viewBox="0 0 24 24" width="32" height="32" style="fill: var(--gold); display: block;">
+        <path d="M12 2C11.5 2 10.3 3.5 10 4C8.5 4.5 7.5 5.5 7 7C5.5 7.5 4.5 8.5 4 10C3.5 11.5 5 12.7 5 13C4.8 15 3.5 17 5 19C6.5 20.5 8.5 20 10 20C11.5 20.5 12.5 22 12 22C11.5 22 12.5 20.5 14 20C15.5 20 17.5 20.5 19 19C20.5 17 19.2 15 19 13C19 12.7 20.5 11.5 20 10C19.5 8.5 18.5 7.5 17 7C16.5 5.5 15.5 4.5 14 4C13.7 3.5 12.5 2 12 2Z"/>
+      </svg>
+      <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--white); letter-spacing: 1px;">SKK <span style="color: var(--gold);">Dental</span></span>
     </a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
@@ -2871,14 +2778,14 @@
 
 
     <div class="hero-content">
-      <div class="hero-badge">👩‍⚕️ Navsari's Premier Women-Owned & Led Clinic</div>
+      <div class="hero-badge">✨ Smile Designing Specialist</div>
 
       <h1 class="hero-title">
-        Transforming Smiles with a Gentle Touch
+        Transforming Smiles with Precision
       </h1>
 
       <p class="hero-sub">
-        Dr. Sakshi Garg — Navsari’s trusted expert in aesthetic smile design & compassionate care
+        Dr. Sakshi Garg — Navsari’s trusted expert in aesthetic smile design
       </p>
 
       <div class="hero-cta">
@@ -2927,10 +2834,10 @@
     </div>
     <div class="trust-divider"></div>
     <div class="trust-item">
-      <div class="trust-icon">👩‍⚕️</div>
+      <div class="trust-icon">🔬</div>
       <div class="trust-info">
-        <span class="trust-num" style="font-size: 0.9rem; font-weight: 700; color: var(--gold-light); text-transform: uppercase;">Women-Led</span>
-        <span class="trust-label">Empowered Care</span>
+        <span class="trust-num"></span>
+        <span class="trust-label">Navsari's trusted</span>
       </div>
     </div>
   </div>
@@ -2959,9 +2866,11 @@
             <div class="tag-line"></div>
             <span class="tag-text">Our Story</span>
           </div>
-          <h2 class="section-title fade-up stagger-1">Crafting Smiles <em>With Compassion & Care</em></h2>
+          <h2 class="section-title fade-up stagger-1">Crafting Smiles <em>That Define You</em></h2>
           <p class="section-desc fade-up stagger-2">
-            Shri Krishna Kripa Implant & Dental Clinic is Navsari's premier <strong>women-owned & led</strong> practice. Founded by Dr. Sakshi Garg in 2019, our clinic is built on the values of empathy, gentle patient-first care, and state-of-the-art dental artistry. We've proudly transformed over 10,000 smiles, offering a comfortable, family-friendly sanctuary for patients of all ages.
+            At Shri Krishna Kripa Implant & Dental Clinic, we believe every smile tells a story. Founded in 2019 in the
+            heart of Navsari, we've transformed over 10,000 smiles with precision, compassion, and cutting-edge
+            technology.
           </p>
 
           <div class="about-timeline">
@@ -2975,8 +2884,8 @@
             <div class="timeline-item fade-up stagger-4">
               <div class="timeline-dot">✦</div>
               <div class="timeline-content">
-                <h4>Expert Female Leadership</h4>
-                <p>Guided by Dr. Sakshi Garg's gentle touch and 10+ years of smile design mastery.</p>
+                <h4>Expertise </h4>
+                <p>Exceptional Smile Desgin Specialist in town.</p>
               </div>
             </div>
             <div class="timeline-item fade-up stagger-5">
@@ -3005,32 +2914,35 @@
       <div class="doctor-grid">
         <div class="doctor-img-wrap fade-in">
           <div class="doctor-glow"></div>
-          <div class="doctor-img-card">
-            <div class="doctor-img-card-inner" id="doctorCardInner">
-              <div class="doctor-img-face face-front">
-                <img id="doctorFrontImg"
-                  src="https://i.postimg.cc/pW8Qf0LL/1432a15f-0424-481d-b73c-3729f2ba81a9.jpg?dl=1"
-                  alt="Dr. Sakshi Garg">
-              </div>
-              <div class="doctor-img-face face-back">
-                <img id="doctorBackImg" src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=80"
-                  alt="SKK Dental Clinic Case">
-              </div>
-            </div>
+          <div class="doctor-img">
+            <img src="https://i.postimg.cc/pW8Qf0LL/1432a15f-0424-481d-b73c-3729f2ba81a9.jpg?dl=1  "
+              alt="Dr. SKK Dental" loading="lazy">
           </div>
+
+
+
+
+
+
         </div>
 
         <div class="fade-up">
           <div class="section-tag">
             <div class="tag-line" style="background:var(--gold-light)"></div>
-            <span class="tag-text" style="color:var(--gold-light)">👩‍⚕️ Meet The Founder</span>
+            <span class="tag-text" style="color:var(--gold-light)">Meet The Doctor</span>
           </div>
-          <h2 class="section-title light">Dr. <em>Sakshi A Garg </em><br>Smile Designing Specialist & Founder</h2>
+          <h2 class="section-title light">Dr. <em>Sakshi A Garg </em><br>Smile Designing Specialist</h2>
           <p class="section-desc light" style="margin-bottom:24px;">
-            Dr. Sakshi Garg is one of South Gujarat's leading cosmetic dentists. As the founder of Navsari's premier women-led clinic, she brings a gentle, empathetic approach to advanced dental care, ensuring every treatment is completely stress-free.
+            With over 10 years of dedicated practice in smile design and cosmetic dentistry, our lead doctor brings
+            global expertise to Navsari. Trained at premier institutes with international certifications in implants and
+            smile design.
           </p>
           <p class="section-desc light" style="margin-bottom:32px;">
-            "Every patient deserves a smile they're proud to share. Our practice was founded to provide a warm, comfortable sanctuary where clinical excellence meets a gentle touch, making your smile journey as pleasant as it is transformative. We welcome busy mothers, families, and patients with dental anxiety with open arms."
+            "Every patient deserves a smile they're proud to share. My mission is to combine clinical excellence with
+            gentle care, making your dental journey comfortable and transformative."
+            Get your dream smile in just one visit with our advanced Smile Designing in Navsari. Specially designed for
+            busy individuals and NRI patients, our same-day treatment delivers fast, natural-looking results without
+            multiple appointments.
           </p>
           <div class="credentials">
             <span class="credential-tag">BDS (Gujarat)</span>
@@ -3086,7 +2998,7 @@
       </div>
 
       <div class="services-grid">
-        <div class="service-card fade-up stagger-1" onclick="openServiceDetails('implants')">
+        <div class="service-card fade-up stagger-1">
           <div class="service-icon">🦷</div>
           <h3 class="service-title">Dental Implants</h3>
           <p class="service-desc">Permanent, natural-looking tooth replacements with titanium implants. Missing teeth
@@ -3096,7 +3008,7 @@
               <path d="M8 5v14l11-7z" />
             </svg></div>
         </div>
-        <div class="service-card fade-up stagger-2" onclick="openServiceDetails('makeover')">
+        <div class="service-card fade-up stagger-2">
           <div class="service-icon">✨</div>
           <h3 class="service-title">Smile Makeover</h3>
           <p class="service-desc">Complete smile transformation using veneers, bonding & whitening. Hollywood smile in
@@ -3106,7 +3018,7 @@
               <path d="M8 5v14l11-7z" />
             </svg></div>
         </div>
-        <div class="service-card fade-up stagger-3" onclick="openServiceDetails('crowns')">
+        <div class="service-card fade-up stagger-3">
           <div class="service-icon">👑</div>
           <h3 class="service-title">Crowns & Bridges</h3>
           <p class="service-desc">Zirconia & ceramic crowns for damaged teeth. Precision-crafted for perfect fit and
@@ -3116,7 +3028,7 @@
               <path d="M8 5v14l11-7z" />
             </svg></div>
         </div>
-        <div class="service-card fade-up stagger-4" onclick="openServiceDetails('whitening')">
+        <div class="service-card fade-up stagger-4">
           <div class="service-icon">💎</div>
           <h3 class="service-title">Teeth Whitening</h3>
           <p class="service-desc">Professional Zoom whitening — up to 8 shades brighter in just one session. Safe &
@@ -3126,7 +3038,7 @@
               <path d="M8 5v14l11-7z" />
             </svg></div>
         </div>
-        <div class="service-card fade-up stagger-1" onclick="openServiceDetails('rct')">
+        <div class="service-card fade-up stagger-1">
           <div class="service-icon">🔧</div>
           <h3 class="service-title">Root Canal</h3>
           <p class="service-desc">Painless RCT with rotary endodontics. Save your natural tooth with comfortable,
@@ -3136,7 +3048,7 @@
               <path d="M8 5v14l11-7z" />
             </svg></div>
         </div>
-        <div class="service-card fade-up stagger-2" onclick="openServiceDetails('ortho')">
+        <div class="service-card fade-up stagger-2">
           <div class="service-icon">🧲</div>
           <h3 class="service-title">Orthodontics</h3>
           <p class="service-desc">Metal braces & clear aligners (Invisalign) for perfectly aligned teeth. Discreet &
@@ -3146,7 +3058,7 @@
               <path d="M8 5v14l11-7z" />
             </svg></div>
         </div>
-        <div class="service-card fade-up stagger-3" onclick="openServiceDetails('gum')">
+        <div class="service-card fade-up stagger-3">
           <div class="service-icon">🌿</div>
           <h3 class="service-title">Gum Treatment</h3>
           <p class="service-desc">Laser gum contouring & periodontal treatment. Healthy gums are the foundation of a
@@ -3156,7 +3068,7 @@
               <path d="M8 5v14l11-7z" />
             </svg></div>
         </div>
-        <div class="service-card fade-up stagger-4" onclick="openServiceDetails('paediatric')">
+        <div class="service-card fade-up stagger-4">
           <div class="service-icon">👶</div>
           <h3 class="service-title">Paediatric Dentistry</h3>
           <p class="service-desc">Gentle, child-friendly dental care. Building healthy habits and confident smiles from
@@ -3188,9 +3100,9 @@
       <div class="comparison-grid">
         <!-- SLIDER 1: Implant Restoration -->
         <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="   https://i.ibb.co/gxcykHW/db251e54312e.jpg  " alt="Before missing tooth">
+          <div class="ba-before"><img src="  https://iili.io/CaZwngn.jpg" alt="Before missing tooth">
           </div>
-          <div class="ba-after"><img src="   https://i.ibb.co/HpKNpC95/8707669d8e72.jpg  " alt="After implant"></div>
+          <div class="ba-after"><img src="   https://iili.io/CaZwTb4.jpg  " alt="After implant"></div>
           <div class="ba-divider"></div>
           <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
               <path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor" />
@@ -3199,9 +3111,9 @@
         </div>
         <!-- SLIDER 2: Smile Makeover / Veneers -->
         <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="    https://i.ibb.co/zh9bLvrV/6846b6efc42d.jpg   " alt="Yellow teeth before">
+          <div class="ba-before"><img src="  https://i.postimg.cc/TRtB83Vn/79913ccf-b2de-494c-b565-9dba7ba7f87d.jpg?dl=1" alt="Yellow teeth before">
           </div>
-          <div class="ba-after"><img src="     https://i.ibb.co/RGyQBKqD/580f0c8ae479.jpg" alt="White smile after">
+          <div class="ba-after"><img src="  https://i.postimg.cc/qk1Wfvsn/bc3611b5-6dc1-4acd-bb5f-1d4ac8d37836.jpg?dl=1" alt="White smile after">
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
@@ -3211,10 +3123,8 @@
         </div>
         <!-- SLIDER 3: Orthodontics / Alignment -->
         <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="   https://i.ibb.co/rKGXX4Bj/2a551fa73607.jpg    "
-              alt="Crooked teeth before"></div>
-          <div class="ba-after"><img src="   https://i.ibb.co/QjYyK26Y/32475f371d77.jpg     "
-              alt="Perfect alignment after"></div>
+          <div class="ba-before"><img src="  https://iili.io/CclCN3P.jpg" alt="Crooked teeth before"></div>
+          <div class="ba-after"><img src="  https://iili.io/CclCOa1.jpg" alt="Perfect alignment after"></div>
           <div class="ba-divider"></div>
           <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
               <path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor" />
@@ -3229,9 +3139,9 @@
 
         <!-- SLIDER 1: Implant Restoration -->
         <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="https://i.ibb.co/B2R7K1jT/a5dbe441aa51.jpg " alt="Before missing tooth">
+          <div class="ba-before"><img src="https://iili.io/CclCHkg.jpg" alt="Before missing tooth">
           </div>
-          <div class="ba-after"><img src="   https://i.ibb.co/WNzM5hQQ/51dd1f75ec28.jpg" alt="After implant"></div>
+          <div class="ba-after"><img src="  https://iili.io/CclCXCQ.jpg" alt="After implant"></div>
           <div class="ba-divider"></div>
           <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
               <path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor" />
@@ -3240,8 +3150,8 @@
         </div>
         <!-- SLIDER 2: Smile Makeover / Veneers -->
         <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="https://i.ibb.co/bgqPhPB6/1478825ee39a.jpg" alt="Yellow teeth before"></div>
-          <div class="ba-after"><img src="   https://i.ibb.co/DHvpzjmM/3de58acac7f5.jpg  " alt="White smile after">
+          <div class="ba-before"><img src="https://iili.io/CclzhDg.jpg" alt="Yellow teeth before"></div>
+          <div class="ba-after"><img src="  https://iili.io/CclzVHP.jpg" alt="White smile after">
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
@@ -3251,9 +3161,9 @@
         </div>
         <!-- SLIDER 3: Orthodontics / Alignment -->
         <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="    https://i.ibb.co/Kx262WBH/0c315755aa72.jpg" alt="Crooked teeth before">
+          <div class="ba-before"><img src="  https://iili.io/CclCSwJ.jpg" alt="Crooked teeth before">
           </div>
-          <div class="ba-after"><img src="https://i.ibb.co/yxfFcxr/7fe7658746e5.jpg " alt="Perfect alignment after">
+          <div class="ba-after"><img src="  https://iili.io/CclCkyg.jpg" alt="Perfect alignment after">
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
@@ -3266,9 +3176,8 @@
 
         <!-- SLIDER 1: Implant Restoration -->
         <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="    https://i.ibb.co/BKHRcSZz/a0b2ea592a8c.jpg        "
-              alt="Before missing tooth"></div>
-          <div class="ba-after"><img src="       https://i.ibb.co/7x1029q8/5183b5eda031.jpg" alt="After implant"></div>
+          <div class="ba-before"><img src="  https://iili.io/CclCoYX.jpg" alt="Before missing tooth"></div>
+          <div class="ba-after"><img src="  https://iili.io/CclBgr7.jpg" alt="After implant"></div>
           <div class="ba-divider"></div>
           <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
               <path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor" />
@@ -3277,8 +3186,8 @@
         </div>
         <!-- SLIDER 2: Smile Makeover / Veneers -->
         <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="https://i.ibb.co/23wc5FQD/8d77765b5714.jpg" alt="Yellow teeth before"></div>
-          <div class="ba-after"><img src="https://i.ibb.co/Gffrh24V/70ca968e0143.jpg" alt="White smile after"></div>
+          <div class="ba-before"><img src="  https://iili.io/CclC2TJ.jpg" alt="Yellow teeth before"></div>
+          <div class="ba-after"><img src="  https://iili.io/CclBbEB.jpg" alt="White smile after"></div>
           <div class="ba-divider"></div>
           <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
               <path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor" />
@@ -3287,49 +3196,10 @@
         </div>
         <!-- SLIDER 3: Orthodontics / Alignment -->
         <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="    https://i.ibb.co/chr6R9CP/a2c2cea19387.jpg" alt="Crooked teeth before">
+          <div class="ba-before"><img src="  https://iili.io/CclCXCQ.jpg" alt="Crooked teeth before">
           </div>
-          <div class="ba-after"><img src="https://i.ibb.co/4Zwrsj9W/d48d2725bbfb.jpg" alt="Perfect alignment after">
+          <div class="ba-after"><img src="  https://iili.io/CclCHkg.jpg" alt="Perfect alignment after">
           </div>
-          <div class="ba-divider"></div>
-          <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor" />
-            </svg></div>
-          <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
-        </div>
-
-
-
-
-
-        <!-- SLIDER 1: Implant Restoration -->
-        <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="   https://i.ibb.co/PGPGyJWr/27e347cf83c7.jpg" alt="Before missing tooth">
-          </div>
-          <div class="ba-after"><img src="https://i.ibb.co/Pv0yRGZk/91a62000b2c2.jpg" alt="After implant"></div>
-          <div class="ba-divider"></div>
-          <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor" />
-            </svg></div>
-          <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
-        </div>
-        <!-- SLIDER 2: Smile Makeover / Veneers -->
-        <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src=" https://i.ibb.co/WNKqJrW0/d75c84f42d1e.jpg  " alt="Yellow teeth before">
-          </div>
-          <div class="ba-after"><img src=" https://i.ibb.co/4wnKcGvz/96b522176d1a.jpg" alt="White smile after"></div>
-          <div class="ba-divider"></div>
-          <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor" />
-            </svg></div>
-          <div class="ba-labels"><span class="ba-label">Before</span><span class="ba-label">After</span></div>
-        </div>
-        <!-- SLIDER 3: Orthodontics / Alignment -->
-        <div class="ba-slider-wrapper" data-slider>
-          <div class="ba-before"><img src="       https://i.ibb.co/zHbvhjNd/008d3111f882.jpg   "
-              alt="Crooked teeth before"></div>
-          <div class="ba-after"><img src="   https://i.ibb.co/zhsDQBbk/efea939f6d6e.jpg         "
-              alt="Perfect alignment after"></div>
           <div class="ba-divider"></div>
           <div class="ba-handle"><svg viewBox="0 0 24 24" width="20" height="20">
               <path d="M8 5v14l-3-3v-8l3-3zm8 0l3 3v8l-3 3v-14zm-4 3l-2 2 2 2 2-2-2-2z" fill="currentColor" />
@@ -3485,95 +3355,6 @@
     </div>
   </section>
 
-  <!-- ===================== AI SCAN IMAGE STRIP (380px x 380px) ===================== -->
-  <div class="ai-image-strip">
-    <div class="ai-image-track">
-      <!-- 20 different images -->
-      <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 1" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 2" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 3" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 4" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 5" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 6" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 7" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 8" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 9" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 10" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 11" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 12" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 13" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 14" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 15" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 16" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 17" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 18" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 19" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 20" loading="lazy">
-
-      <!-- Duplicate for infinite loop scroll -->
-      <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 1" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 2" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 3" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 4" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 5" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 6" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 7" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 8" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 9" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 10" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 11" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 12" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 13" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 14" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 15" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 16" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 17" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 18" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 19" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=500&auto=format&fit=crop&q=80"
-        alt="SKK Dental Case 20" loading="lazy">
-    </div>
-  </div>
-
 
 
 
@@ -3605,50 +3386,6 @@
         <button class="btn-premium secondary" onclick="closeModal()"
           style="flex: 1; padding: 14px; text-align: center; cursor: pointer; border-radius: 12px; border: none;">
           Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================== SERVICE DETAIL MODAL ===================== -->
-  <div id="service-modal" class="modal-overlay">
-    <div class="modal-content service-modal-content" style="max-width: 550px;">
-      <div class="service-modal-header" style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-        <div id="serviceModalIcon" class="service-icon"
-          style="margin-bottom: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">🦷
-        </div>
-        <div>
-          <h3 id="serviceModalTitle"
-            style="color: var(--white); font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; margin-bottom: 4px;">
-            Dental Implants</h3>
-          <span id="serviceModalTagline"
-            style="color: var(--gold-light); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;">Permanent
-            Tooth Replacement</span>
-        </div>
-      </div>
-
-      <div class="service-modal-body"
-        style="color: rgba(255,255,255,0.70); font-size: 0.9rem; line-height: 1.6; margin-bottom: 30px;">
-        <div
-          style="display: flex; gap: 20px; margin-bottom: 20px; padding: 10px 15px; background: rgba(255,255,255,0.03); border: 1px solid rgba(200,169,110,0.15); border-radius: 12px; font-size: 0.82rem;">
-          <div>⏱️ <strong>Duration:</strong> <span id="serviceModalDuration" style="color: var(--white);">1 - 2
-              hours</span></div>
-          <div>🩹 <strong>Recovery:</strong> <span id="serviceModalRecovery" style="color: var(--white);">3 - 5
-              days</span></div>
-        </div>
-        <div id="serviceModalDetails">
-          <!-- Populated dynamically -->
-        </div>
-      </div>
-
-      <div style="display: flex; gap: 12px;">
-        <a id="serviceModalCTA" href="#" class="form-submit"
-          style="flex: 2; text-decoration: none; font-size: 0.9rem; text-align: center; display: flex; align-items: center; justify-content: center; margin-top: 0;">
-          📅 Book Consultation
-        </a>
-        <button class="btn-premium secondary" onclick="closeServiceModal()"
-          style="flex: 1; padding: 14px; text-align: center; cursor: pointer; border-radius: 12px; border: none; font-size: 0.85rem;">
-          Close
         </button>
       </div>
     </div>
@@ -3688,7 +3425,7 @@
                 <p class="test-quote">I was extremely nervous about getting dental implants, but the team at SKK Dental
                   made the entire process so comfortable. The result is absolutely stunning — I can't stop smiling!</p>
                 <div class="test-author">
-                  <div class="test-avatar"><img src="https://i.ibb.co/spG4YtLk/cc541bc17573.jpg" alt="Priya"
+                  <div class="test-avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face&q=80" alt="Priya"
                       loading="lazy"></div>
                   <div>
                     <div class="test-name">Priya Sharma</div>
@@ -3703,7 +3440,7 @@
                 <p class="test-quote">Best dental experience in Navsari by far! My smile makeover turned out better than
                   I imagined. Professional, caring, and the clinic is absolutely beautiful. Highly recommended!</p>
                 <div class="test-author">
-                  <div class="test-avatar"><img src="https://i.ibb.co/TqpbTcYH/bcdfff8adf71.jpg" alt="Rajesh"
+                  <div class="test-avatar"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&q=80" alt="Rajesh"
                       loading="lazy"></div>
                   <div>
                     <div class="test-name">Rajesh Patel</div>
@@ -3718,7 +3455,7 @@
                 <p class="test-quote">The Invisalign treatment at SKK Dental completely transformed my teeth in 14
                   months. The doctor was incredibly patient and attentive throughout. Worth every rupee!</p>
                 <div class="test-author">
-                  <div class="test-avatar"><img src="https://i.ibb.co/Cph5vZXB/4847ed6720e9.jpg" alt="Meera"
+                  <div class="test-avatar"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face&q=80" alt="Meera"
                       loading="lazy"></div>
                   <div>
                     <div class="test-name">Meera Desai</div>
@@ -3733,7 +3470,7 @@
                 <p class="test-quote">I was in severe pain with a cracked tooth. The emergency appointment was arranged
                   quickly and the root canal was absolutely painless. Dr. is truly skilled and compassionate.</p>
                 <div class="test-author">
-                  <div class="test-avatar"><img src="https://i.ibb.co/jkQGSYzS/4b14f60b1d76.jpg" alt="Kiran"
+                  <div class="test-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face&q=80" alt="Kiran"
                       loading="lazy"></div>
                   <div>
                     <div class="test-name">Kiran Mehta</div>
@@ -3749,7 +3486,7 @@
                   luxurious and hygienic. Staff are warm and friendly. This is definitely the best clinic in South
                   Gujarat.</p>
                 <div class="test-author">
-                  <div class="test-avatar"><img src="https://i.ibb.co/4g7W1nDB/97bf18fc709e.jpg" alt="Anjali"
+                  <div class="test-avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face&q=80" alt="Anjali"
                       loading="lazy"></div>
                   <div>
                     <div class="test-name">Anjali Shah</div>
@@ -3812,13 +3549,6 @@
             <div class="booking-feature-text">
               <strong>Free First Consultation</strong>
               <p>Complimentary X-ray + Consultation for new patients</p>
-            </div>
-          </div>
-          <div class="booking-feature">
-            <div class="booking-feature-icon">👩‍⚕️</div>
-            <div class="booking-feature-text">
-              <strong>Gentle & Inclusive Environment</strong>
-              <p>Navsari's premier 100% women-owned clinic providing safe, compassionate care.</p>
             </div>
           </div>
         </div>
@@ -4065,9 +3795,9 @@
     <div class="footer-grid">
       <div>
         <div class="footer-brand-name">SKK <span>Dental</span></div>
-        <div class="footer-tagline">Navsari's Premier Women-Led Clinic</div>
+        <div class="footer-tagline">Designing Smiles That Define You</div>
         <p style="font-size:0.85rem; line-height:1.7; max-width:280px;">
-          Shri Krishna Kripa Implant & Dental Clinic — Providing compassionate, advanced dental care under Dr. Sakshi Garg since 2019.
+          Shri Krishna Kripa Implant & Dental Clinic — Navsari's most trusted dental destination since 2019.
         </p>
       </div>
       <div class="footer-col">
@@ -4190,7 +3920,7 @@
     }
     animateCursor();
 
-    document.querySelectorAll('a, button, .service-card, .faq-question, .tour-item, .gallery-item, .ai-image-track img, .doctor-img-card').forEach(el => {
+    document.querySelectorAll('a, button, .service-card, .faq-question, .tour-item, .gallery-item').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
@@ -4578,7 +4308,7 @@
       doc.setFont("helvetica", "normal");
       doc.setFontSize(10);
       doc.setTextColor(255, 255, 255);
-      doc.text("+91 98765 43210", 185, 28, { align: "right" });
+      doc.text("+91 80599 08969", 185, 28, { align: "right" });
       doc.text("Navsari, Gujarat", 185, 34, { align: "right" });
 
       // ==========================================
@@ -4684,7 +4414,7 @@
 
       doc.setFont("helvetica", "bold");
       doc.setTextColor(...gold);
-      doc.text("Shri Krishna Kripa Dental Clinic | info@skkdental.in | www.skkdental.in", 105, footerY + 11, { align: "center" });
+      doc.text("Shri Krishna Kripa Dental Clinic | sakshisinglabds@gmail.com", 105, footerY + 11, { align: "center" });
 
       // ==========================================
       // TRIGGER DOWNLOAD
@@ -4772,7 +4502,7 @@
 
       // WhatsApp redirect with form data
       const message = `Hello SKK Dental! 🦷\n\nName: ${name}\nPhone: ${phone}\nTreatment: ${treatment || 'To be discussed'}\n\nI'd like to book an appointment. Please confirm my slot.`;
-      const wa = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+      const wa = `https://wa.me/918059908969?text=${encodeURIComponent(message)}`;
       window.open(wa, '_blank');
     }
 
@@ -4835,215 +4565,6 @@
     }, { threshold: 0.3 });
     const doctorSection = document.getElementById('doctor');
     if (doctorSection) docObserver.observe(doctorSection);
-
-    // ============================================================
-    // DOCTOR IMAGE CARD FLIP CAROUSEL (15 images, 3s interval)
-    // ============================================================
-    const doctorImages = [
-      "https://i.postimg.cc/pW8Qf0LL/1432a15f-0424-481d-b73c-3729f2ba81a9.jpg?dl=1",
-      "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=80",
-      "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80",
-      "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=600&q=80",
-      "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=600&q=80",
-      "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=600&q=80",
-      "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=600&q=80",
-      "https://i.postimg.cc/LmNx50Jn/00ed5dab-6354-429f-bfb1-7389a6f3ddec.jpg?dl=1",
-      "https://i.postimg.cc/QX8vnTTj/c2f78de4-1b3d-4ca2-875e-e6b1dcdd3bf6.jpg?dl=1",
-      "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=600&q=80",
-      "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=600&q=80",
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80",
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80"
-    ];
-
-    let doctorFlipCount = 0;
-    let doctorNextImgIndex = 2;
-    const doctorCardInner = document.getElementById('doctorCardInner');
-    const doctorFrontImg = document.getElementById('doctorFrontImg');
-    const doctorBackImg = document.getElementById('doctorBackImg');
-
-    if (doctorCardInner && doctorFrontImg && doctorBackImg) {
-      setInterval(() => {
-        doctorFlipCount++;
-        doctorCardInner.style.transform = `rotateY(${doctorFlipCount * 180}deg)`;
-
-        // Swap source of turning-away image halfway through rotation (400ms)
-        setTimeout(() => {
-          if (doctorFlipCount % 2 === 1) {
-            doctorFrontImg.src = doctorImages[doctorNextImgIndex];
-          } else {
-            doctorBackImg.src = doctorImages[doctorNextImgIndex];
-          }
-          doctorNextImgIndex = (doctorNextImgIndex + 1) % doctorImages.length;
-        }, 400);
-      }, 3000);
-    }
-
-    // ============================================================
-    // SERVICES DETAIL MODALS CONFIGURATION
-    // ============================================================
-    const serviceDetails = {
-      implants: {
-        title: "Dental Implants",
-        tagline: "Lifetime Permanent Tooth Replacement",
-        icon: "🦷",
-        duration: "1 - 2 hours",
-        recovery: "3 - 5 days",
-        bullets: [
-          "<strong>Lifetime Durability:</strong> Designed to last a lifetime with proper care.",
-          "<strong>Bone Health Support:</strong> Prevents bone deterioration and preserves jaw structure.",
-          "<strong>Painless & Comfortable:</strong> Done under precisely controlled modern anesthesia.",
-          "<strong>Same-Day Option:</strong> Get immediate provisional teeth in a single session if eligible."
-        ]
-      },
-      makeover: {
-        title: "Smile Makeover",
-        tagline: "Premium Aesthetic Smile Design",
-        icon: "✨",
-        duration: "2 - 3 visits",
-        recovery: "Immediate",
-        bullets: [
-          "<strong>Digital Previews:</strong> See your modeled final smile before treatment starts.",
-          "<strong>Porcelain Veneers:</strong> Thin, natural shells to cover chips, gaps, and staining.",
-          "<strong>Complete Customization:</strong> Tailored to fit your unique facial characteristics.",
-          "<strong>Stain Resistance:</strong> Premium materials ensure your smile remains bright for years."
-        ]
-      },
-      crowns: {
-        title: "Crowns & Bridges",
-        tagline: "Restorative Zirconia Crowns",
-        icon: "👑",
-        duration: "1 - 2 visits",
-        recovery: "1 - 2 days",
-        bullets: [
-          "<strong>Perfect CAD/CAM Fit:</strong> Laser-scanned restoration ensures perfect alignment.",
-          "<strong>100% Metal-Free:</strong> Highly biocompatible premium Zirconia prevents gum discoloration.",
-          "<strong>Natural Translucency:</strong> Reflects light in the exact same way as healthy real teeth.",
-          "<strong>Exceptional Strength:</strong> Highly fracture-resistant under extreme bite pressures."
-        ]
-      },
-      whitening: {
-        title: "Teeth Whitening",
-        tagline: "Philips Zoom Laser Whitening",
-        icon: "💎",
-        duration: "45 - 60 mins",
-        recovery: "None",
-        bullets: [
-          "<strong>Instant Brightness:</strong> Up to 8 shades lighter in just under an hour.",
-          "<strong>Safe Light Activation:</strong> Laser-accelerated formula targets deep tooth stains.",
-          "<strong>Zero Post-Op Sensitivity:</strong> Safe gels with built-in desensitizers protect enamel.",
-          "<strong>Long-Lasting Radiance:</strong> Easily maintainable results for several years."
-        ]
-      },
-      rct: {
-        title: "Root Canal Treatment",
-        tagline: "Painless Single-Visit RCT",
-        icon: "🔧",
-        duration: "30 - 45 mins",
-        recovery: "1 - 2 days",
-        bullets: [
-          "<strong>Rotary Endodontics:</strong> Advanced tools clean roots quickly and comfortably.",
-          "<strong>Painless Treatment:</strong> Specialized anesthesia options ensure complete comfort.",
-          "<strong>Prevents Extraction:</strong> Saves your natural tooth structure from decay.",
-          "<strong>Seals Infection:</strong> Cleanses bacteria completely to prevent re-infection."
-        ]
-      },
-      ortho: {
-        title: "Orthodontics / Aligners",
-        tagline: "Invisalign Clear Invisible Aligners",
-        icon: "🧲",
-        duration: "6 - 18 months",
-        recovery: "Minimal",
-        bullets: [
-          "<strong>100% Invisible:</strong> Transparent aligners are virtually imperceptible.",
-          "<strong>Removable Design:</strong> Pop aligners out easily to eat and clean your teeth.",
-          "<strong>Gentle & Safe:</strong> Custom-mapped plastic trays prevent sharp wires or cuts.",
-          "<strong>3D Planned Timeline:</strong> Track your weekly teeth movements on a computer screen."
-        ]
-      },
-      gum: {
-        title: "Gum Treatment",
-        tagline: "Laser Gum Reshaping & Periodontics",
-        icon: "🌿",
-        duration: "45 mins",
-        recovery: "1 - 3 days",
-        bullets: [
-          "<strong>Laser Reshaping:</strong> Contour high or uneven gumlines with zero scalpels.",
-          "<strong>Protects Bone Health:</strong> Stops active gum disease to preserve tooth stability.",
-          "<strong>Fast-Track Healing:</strong> Dental lasers sterilize areas to reduce post-op swelling.",
-          "<strong>Eliminates Bad Breath:</strong> Deep cleaning removes odor-causing pocket bacteria."
-        ]
-      },
-      paediatric: {
-        title: "Paediatric Dentistry",
-        tagline: "Gentle Kids Dental Care",
-        icon: "👶",
-        duration: "30 mins",
-        recovery: "Immediate",
-        bullets: [
-          "<strong>Fear-Free Experience:</strong> Interactive games and gentle care build trust.",
-          "<strong>Fissure Sealants:</strong> Protects deep molar grooves from future decay.",
-          "<strong>Growth Tracking:</strong> Early alignment checks prevent major issues later.",
-          "<strong>Habit Correction:</strong> Gentle counseling for thumb-sucking and breathing issues."
-        ]
-      }
-    };
-
-    function openServiceDetails(serviceKey) {
-      const data = serviceDetails[serviceKey];
-      if (!data) return;
-
-      document.getElementById('serviceModalIcon').innerText = data.icon;
-      document.getElementById('serviceModalTitle').innerText = data.title;
-      document.getElementById('serviceModalTagline').innerText = data.tagline;
-      document.getElementById('serviceModalDuration').innerText = data.duration;
-      document.getElementById('serviceModalRecovery').innerText = data.recovery;
-
-      const detailsContainer = document.getElementById('serviceModalDetails');
-      detailsContainer.innerHTML = '';
-
-      const ul = document.createElement('ul');
-      ul.style.listStyleType = 'none';
-      ul.style.padding = '0';
-      ul.style.display = 'flex';
-      ul.style.flexDirection = 'column';
-      ul.style.gap = '12px';
-
-      data.bullets.forEach(bulletText => {
-        const li = document.createElement('li');
-        li.style.display = 'flex';
-        li.style.alignItems = 'flex-start';
-        li.style.gap = '10px';
-        li.innerHTML = `<span style="color: var(--gold);">✦</span> <span>${bulletText}</span>`;
-        ul.appendChild(li);
-      });
-
-      detailsContainer.appendChild(ul);
-
-      // Setup CTA Link to WhatsApp
-      const bookCTA = document.getElementById('serviceModalCTA');
-      const message = `Hi SKK Dental! 🦷\n\nI am interested in the ${data.title} treatment.\n\nI'd like to book a free consultation. Please get in touch.`;
-      bookCTA.href = `https://wa.me/918059908969?text=${encodeURIComponent(message)}`;
-      bookCTA.target = '_blank';
-
-      // Open Modal
-      const modal = document.getElementById('service-modal');
-      modal.classList.add('active');
-    }
-
-    function closeServiceModal() {
-      document.getElementById('service-modal').classList.remove('active');
-    }
-
-    // Close all modals on clicking overlay background
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-          overlay.classList.remove('active');
-        }
-      });
-    });
 
   </script>
 
